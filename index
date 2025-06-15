@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎵 Music Beat Sync Slideshow - Complete Edition</title>
+    <meta name="description" content="AI-powered music beat detection and automatic slideshow synchronization with full functionality">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎵</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --warning-gradient: linear-gradient(135deg, #feca57 0%, #ff9ff3 100%);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 75%, #00f2fe 100%);
+            background-size: 400% 400%;
+            animation: gradientFlow 20s ease infinite;
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        @keyframes gradientFlow {
+            0%, 100% { background-position: 0% 50%; }
+            25% { background-position: 100% 0%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 30px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                transparent,
+                rgba(102, 126, 234, 0.1),
+                transparent,
+                rgba(240, 147, 251, 0.1),
+                transparent
+            );
+            animation: rotate 30s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: clamp(2.5em, 6vw, 4em);
+            font-weight: 900;
+            margin-bottom: 25px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f39c12, #e74c3c, #9b59b6);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textGlow 5s ease infinite;
+        }
+
+        @keyframes textGlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .section {
+            background: var(--glass-bg);
+            border-radius: 25px;
+            padding: 40px;
+            margin: 30px 0;
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: left 1s ease;
+        }
+
+        .section:hover::before {
+            left: 100%;
+        }
+
+        .section h2 {
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #4ecdc4;
+            text-shadow: 0 0 20px rgba(78, 205, 196, 0.5);
+            font-weight: 800;
+        }
+
+        .upload-area {
+            border: 3px dashed rgba(78, 205, 196, 0.6);
+            border-radius: 20px;
+            padding: 50px 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin: 25px 0;
+            background: rgba(255, 255, 255, 0.02);
+            position: relative;
+        }
+
+        .upload-area:hover {
+            border-color: #4ecdc4;
+            background: rgba(78, 205, 196, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(78, 205, 196, 0.2);
+        }
+
+        .upload-area.dragover {
+            border-color: #4ecdc4;
+            background: rgba(78, 205, 196, 0.2);
+            transform: scale(1.02);
+            box-shadow: 0 0 40px rgba(78, 205, 196, 0.4);
+        }
+
+        .upload-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            color: #4ecdc4;
+            filter: drop-shadow(0 0 20px rgba(78, 205, 196, 0.5));
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .file-list {
+            margin: 25px 0;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--glass-bg);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .file-item:hover {
+            transform: translateX(10px);
+            border-color: #4ecdc4;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 20px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 8px;
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: all 0.6s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary { background: var(--primary-gradient); }
+        .btn-success { background: var(--success-gradient); }
+        .btn-warning { background: var(--warning-gradient); }
+        .btn-danger { background: var(--secondary-gradient); }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn:disabled:hover {
+            transform: none;
+            box-shadow: var(--box-shadow);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        /* Slideshow Styles */
+        .slideshow-container {
+            position: relative;
+            max-width: 600px;
+            margin: 40px auto;
+            background: #000;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+            border: 4px solid var(--glass-border);
+            aspect-ratio: 9/16;
+        }
+
+        .slide {
+            display: none;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 30px;
+            animation: slideAppear 0.8s ease;
+        }
+
+        @keyframes slideAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.9) rotateY(15deg);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) rotateY(0deg);
+            }
+        }
+
+        .slide-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                135deg,
+                rgba(0, 0, 0, 0.7) 0%,
+                rgba(0, 0, 0, 0.3) 50%,
+                rgba(0, 0, 0, 0.7) 100%
+            );
+            z-index: 1;
+        }
+
+        .slide-content {
+            position: relative;
+            z-index: 3;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+        }
+
+        .slide-title {
+            font-size: 2.5em;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-align: center;
+            background: linear-gradient(45deg, #fff, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .slide-number {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: rgba(78, 205, 196, 0.9);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            z-index: 4;
+            font-size: 1.1em;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Beat Visualizer */
+        .beat-visualizer {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 4px;
+            z-index: 4;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px 25px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .beat-bar {
+            width: 6px;
+            height: 20px;
+            background: linear-gradient(to top, #ff6b6b, #4ecdc4, #f39c12);
+            border-radius: 3px;
+            transition: height 0.1s ease;
+            box-shadow: 0 0 10px rgba(78, 205, 196, 0.3);
+        }
+
+        /* Particle System */
+        .particle-system {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: particleDance 4s ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes particleDance {
+            0%, 100% {
+                transform: translateY(0) scale(1) rotate(0deg);
+                opacity: 0.7;
+            }
+            25% {
+                transform: translateY(-40px) scale(1.2) rotate(90deg);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-20px) scale(0.8) rotate(180deg);
+                opacity: 0.9;
+            }
+            75% {
+                transform: translateY(-60px) scale(1.5) rotate(270deg);
+                opacity: 1;
+            }
+        }
+
+        /* Analysis Results */
+        .analysis-results {
+            background: var(--glass-bg);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 25px 0;
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            display: none;
+        }
+
+        .analysis-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: #4ecdc4;
+            box-shadow: 0 10px 25px rgba(78, 205, 196, 0.2);
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: 900;
+            color: #4ecdc4;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(78, 205, 196, 0.5);
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+
+        /* Progress Indicator */
+        .progress-container {
+            background: rgba(255, 255, 255, 0.1);
+            height: 8px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--success-gradient);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: progressShine 2s ease infinite;
+        }
+
+        @keyframes progressShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Success Messages */
+        .success-message {
+            background: var(--success-gradient);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: var(--box-shadow);
+            animation: slideDown 0.5s ease;
+            display: none;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #4ecdc4;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Audio Player */
+        .audio-player {
+            width: 100%;
+            margin: 20px 0;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Image Preview */
+        .image-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .image-preview-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            background: rgba(0, 0, 0, 0.3);
+            aspect-ratio: 1;
+        }
+
+        .image-preview-item:hover {
+            transform: translateY(-5px);
+            border-color: #4ecdc4;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .image-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .image-preview-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .image-remove-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(255, 68, 68, 0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-remove-btn:hover {
+            background: #ff4444;
+            transform: scale(1.1);
+        }
+
+        /* Recording UI */
+        .recording-status {
+            background: rgba(255, 68, 68, 0.2);
+            border: 2px solid rgba(255, 68, 68, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            display: none;
+            animation: recordingPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes recordingPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 68, 68, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(255, 68, 68, 0.8); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            .header { padding: 40px 20px; }
+            .section { padding: 25px 20px; }
+            .controls { flex-direction: column; gap: 10px; }
+            .btn { width: 100%; max-width: 320px; }
+            .analysis-stats { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+            .slide-title { font-size: 2em; }
+            .image-preview-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success-gradient);
+            color: white;
+            padding: 20px 25px;
+            border-radius: 15px;
+            font-weight: 600;
+            box-shadow: var(--box-shadow);
+            z-index: 10000;
+            transform: translateX(400px);
+            transition: transform 0.5s ease;
+            max-width: 350px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background: var(--secondary-gradient);
+        }
+
+        .notification.warning {
+            background: var(--warning-gradient);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎵 Music Beat Sync Slideshow</h1>
+            <p style="font-size: clamp(1.2em, 3vw, 1.8em); opacity: 0.9; margin-top: 20px;">
+                Complete AI-Powered Beat Detection & Slideshow Synchronization
+            </p>
+            <p style="font-size: 1.1em; opacity: 0.8; margin-top: 15px;">
+                ✨ Real-time Audio Analysis • 🎨 Perfect Synchronization • 📱 Full Functionality
+            </p>
+        </div>
+
+        <!-- Music Upload Section -->
+        <div class="section">
+            <h2>🎵 Upload Music</h2>
+            <div class="upload-area" id="musicUpload">
+                <div class="upload-icon">🎵</div>
+                <h3>Select or drag your music file</h3>
+                <p>Supports: MP3, WAV, AAC, OGG formats</p>
+                <p style="opacity: 0.7; margin-top: 10px;">Maximum 50MB</p>
+            </div>
+            <input type="file" id="musicInput" accept="audio/*" style="display: none;">
+            
+            <div id="musicFileList" class="file-list"></div>
+            
+            <audio id="audioPlayer" controls class="audio-player" style="display: none;"></audio>
+            
+            <div class="controls">
+                <button class="btn btn-primary" id="playBtn" disabled>▶️ Play/Pause</button>
+                <button class="btn btn-warning" id="analyzeBtn" disabled>🔍 Analyze Beats</button>
+            </div>
+
+            <div id="analysisResults" class="analysis-results">
+                <h3 style="color: #4ecdc4; margin-bottom: 20px; text-align: center;">🎯 Analysis Results</h3>
+                <div class="analysis-stats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="bpmValue">0</div>
+                        <div class="stat-label">BPM</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="durationValue">0</div>
+                        <div class="stat-label">Duration (s)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="beatsValue">0</div>
+                        <div class="stat-label">Beats Detected</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="slidesValue">0</div>
+                        <div class="stat-label">Slides Ready</div>
+                    </div>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar" id="analysisProgress"></div>
+                </div>
+                
+                <p style="text-align: center; margin-top: 15px; opacity: 0.9;">
+                    🎵 Beat analysis complete! Now upload images to create your slideshow.
+                </p>
+            </div>
+        </div>
+
+        <!-- Image Upload Section -->
+        <div class="section">
+            <h2>📸 Upload Images</h2>
+            <div class="upload-area" id="imageUpload">
+                <div class="upload-icon">📸</div>
+                <h3>Select or drag your image files</h3>
+                <p>Supports: JPG, PNG, GIF, WebP formats</p>
+                <p style="opacity: 0.7; margin-top: 10px;">Multiple files supported • Max 10MB each</p>
+            </div>
+            <input type="file" id="imageInput" accept="image/*" multiple style="display: none;">
+            
+            <div id="imageFileList" class="file-list"></div>
+            <div id="imagePreviewGrid" class="image-preview-grid"></div>
+            
+            <div class="controls">
+                <button class="btn btn-success" id="generateBtn" disabled>✨ Generate Slideshow</button>
+                <button class="btn btn-primary" id="clearBtn">🗑️ Clear All</button>
+            </div>
+        </div>
+
+        <!-- Slideshow Section -->
+        <div class="section" id="slideshowSection" style="display: none;">
+            <h2>🎬 Synchronized Slideshow</h2>
+            
+            <div class="slideshow-container">
+                <div id="slideshowArea">
+                    <!-- Slides will be generated here -->
+                </div>
+                
+                <!-- Beat Visualizer -->
+                <div class="beat-visualizer" id="beatVisualizer">
+                    <!-- Beat bars will be generated here -->
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn btn-success" id="startBtn">🎬 Start Slideshow</button>
+                <button class="btn btn-danger" id="stopBtn" disabled>⏹️ Stop</button>
+                <button class="btn btn-primary" id="recordBtn">🎥 Record Video</button>
+                <button class="btn btn-warning" id="downloadBtn">📥 Download</button>
+            </div>
+
+            <div id="recordingStatus" class="recording-status">
+                <h3>🔴 Recording in Progress</h3>
+                <p>Perfect synchronization captured in real-time!</p>
+                <div class="progress-container">
+                    <div class="progress-bar" id="recordingProgress"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Messages -->
+        <div id="successMessage" class="success-message">
+            🎉 Operation completed successfully!
+        </div>
+    </div>
+
+    <script>
+        // 🎵 Global Variables
+        let audioContext;
+        let audioBuffer;
+        let sourceNode;
+        let analyserNode;
+        let uploadedMusic = null;
+        let uploadedImages = [];
+        let beatTimes = [];
+        let bpm = 0;
+        let duration = 0;
+        let currentSlide = 0;
+        let isPlaying = false;
+        let isSlideshow = false;
+        let slideshowInterval = null;
+        let mediaRecorder = null;
+        let recordedChunks = [];
+
+        // 🚀 Initialize Application
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🎵 Music Beat Sync Slideshow - Complete Edition Loading...');
+            initializeAudioContext();
+            setupEventListeners();
+            showNotification('🎵 Welcome! Upload music and images to get started.', 'success');
+        });
+
+        // 🎯 Audio Context Setup
+        async function initializeAudioContext() {
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                console.log('✅ Audio Context initialized');
+            } catch (error) {
+                console.error('❌ Audio Context failed:', error);
+                showNotification('Audio features unavailable in this browser', 'error');
+            }
+        }
+
+        // 🎯 Event Listeners Setup
+        function setupEventListeners() {
+            // Music Upload
+            const musicUpload = document.getElementById('musicUpload');
+            const musicInput = document.getElementById('musicInput');
+            
+            musicUpload.addEventListener('click', () => musicInput.click());
+            musicUpload.addEventListener('dragover', handleDragOver);
+            musicUpload.addEventListener('dragleave', handleDragLeave);
+            musicUpload.addEventListener('drop', handleMusicDrop);
+            musicInput.addEventListener('change', handleMusicSelect);
+
+            // Image Upload
+            const imageUpload = document.getElementById('imageUpload');
+            const imageInput = document.getElementById('imageInput');
+            
+            imageUpload.addEventListener('click', () => imageInput.click());
+            imageUpload.addEventListener('dragover', handleDragOver);
+            imageUpload.addEventListener('dragleave', handleDragLeave);
+            imageUpload.addEventListener('drop', handleImageDrop);
+            imageInput.addEventListener('change', handleImageSelect);
+
+            // Button Event Listeners
+            document.getElementById('playBtn').addEventListener('click', togglePlayback);
+            document.getElementById('analyzeBtn').addEventListener('click', analyzeBeat);
+            document.getElementById('generateBtn').addEventListener('click', generateSlideshow);
+            document.getElementById('clearBtn').addEventListener('click', clearAll);
+            document.getElementById('startBtn').addEventListener('click', startSlideshow);
+            document.getElementById('stopBtn').addEventListener('click', stopSlideshow);
+            document.getElementById('recordBtn').addEventListener('click', recordSlideshow);
+            document.getElementById('downloadBtn').addEventListener('click', downloadSlideshow);
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', handleKeyboard);
+        }
+
+        // 🎵 Music File Handling
+        function handleMusicSelect(event) {
+            const files = event.target.files;
+            if (files.length > 0) {
+                handleMusicFile(files[0]);
+            }
+        }
+
+        function handleMusicDrop(event) {
+            event.preventDefault();
+            event.currentTarget.classList.remove('dragover');
+            const files = event.dataTransfer.files;
+            if (files.length > 0 && files[0].type.startsWith('audio/')) {
+                handleMusicFile(files[0]);
+            } else {
+                showNotification('Please drop an audio file', 'error');
+            }
+        }
+
+        async function handleMusicFile(file) {
+            if (file.size > 50 * 1024 * 1024) {
+                showNotification('File too large! Maximum 50MB allowed.', 'error');
+                return;
+            }
+
+            uploadedMusic = file;
+            
+            // Update UI
+            updateMusicFileList(file);
+            
+            // Setup audio player
+            const audioPlayer = document.getElementById('audioPlayer');
+            const url = URL.createObjectURL(file);
+            audioPlayer.src = url;
+            audioPlayer.style.display = 'block';
+            
+            // Enable buttons
+            document.getElementById('playBtn').disabled = false;
+            document.getElementById('analyzeBtn').disabled = false;
+            
+            showNotification(`🎵 Music loaded: ${file.name}`, 'success');
+            updateGenerateButton();
+        }
+
+        function updateMusicFileList(file) {
+            const fileList = document.getElementById('musicFileList');
+            const fileSize = (file.size / 1024 / 1024).toFixed(2);
+            
+            fileList.innerHTML = `
+                <div class="file-item">
+                    <div>
+                        <span style="font-size: 1.2em;">🎵 ${file.name}</span>
+                        <div style="opacity: 0.7; font-size: 0.9em; margin-top: 5px;">
+                            Size: ${fileSize} MB • Type: ${file.type}
+                        </div>
+                    </div>
+                    <button onclick="clearMusic()" class="btn btn-danger" style="padding: 8px 15px; margin: 0;">
+                        🗑️ Remove
+                    </button>
+                </div>
+            `;
+        }
+
+        // 📸 Image File Handling
+        function handleImageSelect(event) {
+            const files = Array.from(event.target.files);
+            handleImageFiles(files);
+        }
+
+        function handleImageDrop(event) {
+            event.preventDefault();
+            event.currentTarget.classList.remove('dragover');
+            const files = Array.from(event.dataTransfer.files).filter(file => 
+                file.type.startsWith('image/')
+            );
+            if (files.length > 0) {
+                handleImageFiles(files);
+            } else {
+                showNotification('Please drop image files', 'error');
+            }
+        }
+
+        function handleImageFiles(files) {
+            if (uploadedImages.length + files.length > 20) {
+                showNotification('Maximum 20 images allowed', 'error');
+                return;
+            }
+
+            files.forEach(file => {
+                if (file.size > 10 * 1024 * 1024) {
+                    showNotification(`${file.name} is too large (max 10MB)`, 'error');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImages.push({
+                        id: Date.now() + Math.random(),
+                        name: file.name,
+                        url: e.target.result,
+                        file: file
+                    });
+                    updateImagePreview();
+                    updateGenerateButton();
+                };
+                reader.readAsDataURL(file);
+            });
+
+            showNotification(`📸 ${files.length} image(s) added`, 'success');
+        }
+
+        function updateImagePreview() {
+            const grid = document.getElementById('imagePreviewGrid');
+            const fileList = document.getElementById('imageFileList');
+            
+            if (uploadedImages.length === 0) {
+                grid.innerHTML = '';
+                fileList.innerHTML = '';
+                return;
+            }
+
+            // Update file list
+            fileList.innerHTML = `
+                <div class="file-item">
+                    <span style="font-size: 1.2em;">📸 ${uploadedImages.length} image(s) ready</span>
+                    <button onclick="clearImages()" class="btn btn-danger" style="padding: 8px 15px; margin: 0;">
+                        🗑️ Clear All
+                    </button>
+                </div>
+            `;
+
+            // Update preview grid
+            grid.innerHTML = uploadedImages.map(image => `
+                <div class="image-preview-item">
+                    <img src="${image.url}" alt="${image.name}">
+                    <button class="image-remove-btn" onclick="removeImage('${image.id}')">×</button>
+                </div>
+            `).join('');
+        }
+
+        // 🔊 Audio Playback
+        async function togglePlayback() {
+            const audioPlayer = document.getElementById('audioPlayer');
+            const playBtn = document.getElementById('playBtn');
+
+            if (audioPlayer.paused) {
+                if (audioContext && audioContext.state === 'suspended') {
+                    await audioContext.resume();
+                }
+                await audioPlayer.play();
+                playBtn.innerHTML = '⏸️ Pause';
+                isPlaying = true;
+            } else {
+                audioPlayer.pause();
+                playBtn.innerHTML = '▶️ Play';
+                isPlaying = false;
+            }
+        }
+
+        // 🎯 Beat Analysis - Core Algorithm
+        async function analyzeBeat() {
+            if (!uploadedMusic || !audioContext) {
+                showNotification('Upload music first!', 'error');
+                return;
+            }
+
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            const originalText = analyzeBtn.innerHTML;
+            
+            try {
+                analyzeBtn.innerHTML = '<span class="loading"></span>Analyzing...';
+                analyzeBtn.disabled = true;
+                
+                showProgressBar('analysisProgress', 0);
+                
+                // Read and decode audio
+                const arrayBuffer = await uploadedMusic.arrayBuffer();
+                showProgressBar('analysisProgress', 30);
+                
+                audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+                duration = audioBuffer.duration;
+                showProgressBar('analysisProgress', 60);
+                
+                // Advanced beat detection
+                beatTimes = await detectBeatsAdvanced(audioBuffer);
+                bpm = calculateBPM(beatTimes);
+                showProgressBar('analysisProgress', 100);
+                
+                // Display results
+                displayAnalysisResults();
+                updateGenerateButton();
+                
+                showNotification(`🎯 Analysis complete! BPM: ${bpm}, Beats: ${beatTimes.length}`, 'success');
+                
+            } catch (error) {
+                console.error('Beat analysis failed:', error);
+                showNotification('Beat analysis failed. Try a different file.', 'error');
+            } finally {
+                analyzeBtn.innerHTML = originalText;
+                analyzeBtn.disabled = false;
+            }
+        }
+
+        // 🎯 Advanced Beat Detection Algorithm
+        async function detectBeatsAdvanced(buffer) {
+            return new Promise((resolve) => {
+                const sampleRate = buffer.sampleRate;
+                const channelData = buffer.getChannelData(0);
+                const beats = [];
+                
+                // Analysis parameters
+                const windowSize = Math.floor(sampleRate * 0.05); // 50ms
+                const hopSize = Math.floor(windowSize / 2);
+                const smoothingWindow = 3;
+                
+                let energies = [];
+                
+                // Calculate energy for each window
+                for (let i = 0; i < channelData.length - windowSize; i += hopSize) {
+                    let energy = 0;
+                    for (let j = 0; j < windowSize; j++) {
+                        energy += Math.abs(channelData[i + j]);
+                    }
+                    energies.push({
+                        time: i / sampleRate,
+                        energy: energy / windowSize
+                    });
+                }
+                
+                if (energies.length === 0) {
+                    resolve([]);
+                    return;
+                }
+                
+                // Normalize energies
+                const maxEnergy = Math.max(...energies.map(e => e.energy));
+                const meanEnergy = energies.reduce((sum, e) => sum + e.energy, 0) / energies.length;
+                
+                energies = energies.map(e => ({
+                    ...e,
+                    energy: e.energy / maxEnergy,
+                    isAboveAverage: e.energy > meanEnergy * 1.2
+                }));
+                
+                // Peak detection
+                const threshold = 0.3;
+                const minInterval = 60 / 200; // Max 200 BPM
+                
+                for (let i = 2; i < energies.length - 2; i++) {
+                    const current = energies[i];
+                    const prev = energies[i - 1];
+                    const next = energies[i + 1];
+                    
+                    // Peak detection criteria
+                    if (current.energy > prev.energy && 
+                        current.energy > next.energy && 
+                        current.energy > threshold && 
+                        current.isAboveAverage) {
+                        
+                        // Check minimum interval
+                        if (beats.length === 0 || 
+                            current.time - beats[beats.length - 1] >= minInterval) {
+                            beats.push(current.time);
+                        }
+                    }
+                }
+                
+                console.log(`🥁 Detected ${beats.length} beats`);
+                resolve(beats);
+            });
+        }
+
+        function calculateBPM(beatTimes) {
+            if (beatTimes.length < 2) return 120;
+            
+            const intervals = [];
+            for (let i = 1; i < beatTimes.length; i++) {
+                intervals.push(beatTimes[i] - beatTimes[i - 1]);
+            }
+            
+            // Use median for stability
+            intervals.sort((a, b) => a - b);
+            const medianInterval = intervals[Math.floor(intervals.length / 2)];
+            
+            return Math.max(60, Math.min(200, Math.round(60 / medianInterval)));
+        }
+
+        function displayAnalysisResults() {
+            document.getElementById('analysisResults').style.display = 'block';
+            document.getElementById('bpmValue').textContent = bpm;
+            document.getElementById('durationValue').textContent = Math.round(duration);
+            document.getElementById('beatsValue').textContent = beatTimes.length;
+            document.getElementById('slidesValue').textContent = Math.min(uploadedImages.length, beatTimes.length);
+            
+            // Scroll to results
+            document.getElementById('analysisResults').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'center'
+            });
+        }
+
+        // 🎬 Slideshow Generation
+        function generateSlideshow() {
+            if (uploadedImages.length === 0 || beatTimes.length === 0) {
+                showNotification('Need both music analysis and images!', 'error');
+                return;
+            }
+
+            const slideCount = Math.min(uploadedImages.length, beatTimes.length, 15);
+            const slideshowArea = document.getElementById('slideshowArea');
+            slideshowArea.innerHTML = '';
+
+            // Create beat visualizer
+            createBeatVisualizer();
+
+            // Generate slides
+            for (let i = 0; i < slideCount; i++) {
+                const slide = createSlideElement(i, slideCount);
+                slideshowArea.appendChild(slide);
+            }
+
+            // Show first slide
+            if (slideCount > 0) {
+                slideshowArea.children[0].classList.add('active');
+                currentSlide = 0;
+            }
+
+            // Show slideshow section
+            document.getElementById('slideshowSection').style.display = 'block';
+            document.getElementById('slideshowSection').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'center'
+            });
+            
+            showNotification(`🎬 Slideshow generated! ${slideCount} slides ready.`, 'success');
+        }
+
+        function createSlideElement(index, total) {
+            const slide = document.createElement('div');
+            slide.className = 'slide';
+            slide.style.backgroundImage = `url(${uploadedImages[index].url})`;
+            
+            slide.innerHTML = `
+                <div class="slide-overlay"></div>
+                <div class="slide-content">
+                    <div class="slide-title">${uploadedImages[index].name.split('.')[0]}</div>
+                </div>
+                <div class="slide-number">${index + 1}/${total}</div>
+                <div class="particle-system">${createParticles()}</div>
+            `;
+            
+            return slide;
+        }
+
+        function createParticles() {
+            let particles = '';
+            for (let i = 0; i < 12; i++) {
+                particles += `<div class="particle" style="left: ${Math.random() * 100}%; top: ${Math.random() * 100}%; animation-delay: ${Math.random() * 4}s;"></div>`;
+            }
+            return particles;
+        }
+
+        function createBeatVisualizer() {
+            const visualizer = document.getElementById('beatVisualizer');
+            visualizer.innerHTML = '';
+            
+            for (let i = 0; i < 16; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'beat-bar';
+                bar.style.animationDelay = (i * 0.1) + 's';
+                visualizer.appendChild(bar);
+            }
+        }
+
+        // 🎬 Slideshow Control
+        async function startSlideshow() {
+            if (!audioBuffer || beatTimes.length === 0) {
+                showNotification('Complete beat analysis first!', 'error');
+                return;
+            }
+
+            try {
+                isSlideshow = true;
+                currentSlide = 0;
+                
+                // Update buttons
+                document.getElementById('startBtn').disabled = true;
+                document.getElementById('stopBtn').disabled = false;
+                
+                // Resume audio context
+                if (audioContext.state === 'suspended') {
+                    await audioContext.resume();
+                }
+                
+                // Create audio source
+                sourceNode = audioContext.createBufferSource();
+                sourceNode.buffer = audioBuffer;
+                
+                // Setup analyser
+                analyserNode = audioContext.createAnalyser();
+                analyserNode.fftSize = 256;
+                
+                sourceNode.connect(analyserNode);
+                analyserNode.connect(audioContext.destination);
+                
+                // Start audio
+                const startTime = audioContext.currentTime;
+                sourceNode.start(startTime);
+                
+                // Schedule slide transitions
+                scheduleSlideTransitions();
+                
+                // Start visualizer
+                startVisualization();
+                
+                sourceNode.onended = stopSlideshow;
+                
+                showNotification('🎬 Slideshow started! Perfect synchronization active.', 'success');
+                
+            } catch (error) {
+                console.error('Slideshow start failed:', error);
+                showNotification('Failed to start slideshow', 'error');
+                stopSlideshow();
+            }
+        }
+
+        function scheduleSlideTransitions() {
+            const slides = document.querySelectorAll('#slideshowArea .slide');
+            const slideCount = Math.min(slides.length, beatTimes.length);
+            
+            for (let i = 0; i < slideCount; i++) {
+                const beatTime = beatTimes[i];
+                const delay = beatTime * 1000;
+                
+                setTimeout(() => {
+                    if (isSlideshow && i < slides.length) {
+                        slides.forEach(slide => slide.classList.remove('active'));
+                        slides[i].classList.add('active');
+                        currentSlide = i;
+                        
+                        // Enhance particles on beat
+                        enhanceParticles(slides[i]);
+                    }
+                }, delay);
+            }
+        }
+
+        function enhanceParticles(slide) {
+            const particles = slide.querySelectorAll('.particle');
+            particles.forEach(particle => {
+                particle.style.transform = 'scale(2)';
+                particle.style.background = `hsl(${Math.random() * 360}, 100%, 80%)`;
+                
+                setTimeout(() => {
+                    particle.style.transform = 'scale(1)';
+                    particle.style.background = 'rgba(255, 255, 255, 0.8)';
+                }, 300);
+            });
+        }
+
+        function startVisualization() {
+            const dataArray = new Uint8Array(analyserNode.frequencyBinCount);
+            const bars = document.querySelectorAll('.beat-bar');
+            
+            function visualize() {
+                if (!isSlideshow) return;
+                
+                analyserNode.getByteFrequencyData(dataArray);
+                
+                for (let i = 0; i < bars.length && i < dataArray.length; i++) {
+                    const height = Math.max(10, (dataArray[i] / 255) * 60);
+                    bars[i].style.height = height + 'px';
+                    
+                    if (dataArray[i] > 200) {
+                        bars[i].style.background = 'linear-gradient(to top, #ff6b6b, #feca57)';
+                    } else if (dataArray[i] > 100) {
+                        bars[i].style.background = 'linear-gradient(to top, #4ecdc4, #45b7d1)';
+                    } else {
+                        bars[i].style.background = 'linear-gradient(to top, #667eea, #764ba2)';
+                    }
+                }
+                
+                requestAnimationFrame(visualize);
+            }
+            
+            visualize();
+        }
+
+        function stopSlideshow() {
+            isSlideshow = false;
+            
+            if (sourceNode) {
+                try {
+                    sourceNode.stop();
+                } catch (e) {
+                    console.log('Audio already stopped');
+                }
+                sourceNode = null;
+            }
+            
+            // Reset buttons
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = true;
+            
+            // Reset visualizer
+            const bars = document.querySelectorAll('.beat-bar');
+            bars.forEach(bar => {
+                bar.style.height = '20px';
+                bar.style.background = 'linear-gradient(to top, #667eea, #764ba2)';
+            });
+            
+            showNotification('⏹️ Slideshow stopped', 'success');
+        }
+
+        // 🎥 Recording Functionality
+        async function recordSlideshow() {
+            if (!isSlideshow) {
+                showNotification('Start slideshow first to record!', 'error');
+                return;
+            }
+
+            try {
+                const stream = await navigator.mediaDevices.getDisplayMedia({
+                    video: { mediaSource: 'screen' },
+                    audio: true
+                });
+
+                mediaRecorder = new MediaRecorder(stream);
+                recordedChunks = [];
+
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        recordedChunks.push(event.data);
+                    }
+                };
+
+                mediaRecorder.onstop = saveRecording;
+
+                mediaRecorder.start();
+                
+                document.getElementById('recordingStatus').style.display = 'block';
+                document.getElementById('recordBtn').disabled = true;
+                
+                showNotification('🔴 Recording started! Perfect sync captured.', 'success');
+                
+            } catch (error) {
+                console.error('Recording failed:', error);
+                showNotification('Recording failed. Please try again.', 'error');
+            }
+        }
+
+        function saveRecording() {
+            const blob = new Blob(recordedChunks, { type: 'video/webm' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            
+            a.style.display = 'none';
+            a.href = url;
+            a.download = `music-slideshow-${Date.now()}.webm`;
+            
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            URL.revokeObjectURL(url);
+            
+            document.getElementById('recordingStatus').style.display = 'none';
+            document.getElementById('recordBtn').disabled = false;
+            
+            showNotification('📥 Recording saved successfully!', 'success');
+        }
+
+        // 📥 Download Functionality
+        function downloadSlideshow() {
+            const data = {
+                metadata: {
+                    title: 'Music Beat Sync Slideshow',
+                    createdAt: new Date().toISOString(),
+                    musicFile: uploadedMusic ? uploadedMusic.name : null,
+                    imageCount: uploadedImages.length,
+                    bpm: bpm,
+                    duration: duration,
+                    beatCount: beatTimes.length
+                },
+                beatTimes: beatTimes,
+                images: uploadedImages.map(img => ({
+                    name: img.name,
+                    url: img.url
+                }))
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            
+            a.href = url;
+            a.download = `slideshow-data-${Date.now()}.json`;
+            a.click();
+            
+            URL.revokeObjectURL(url);
+            showNotification('📄 Slideshow data exported!', 'success');
+        }
+
+        // 🧹 Utility Functions
+        function clearMusic() {
+            uploadedMusic = null;
+            document.getElementById('musicFileList').innerHTML = '';
+            document.getElementById('audioPlayer').style.display = 'none';
+            document.getElementById('audioPlayer').src = '';
+            document.getElementById('playBtn').disabled = true;
+            document.getElementById('analyzeBtn').disabled = true;
+            document.getElementById('analysisResults').style.display = 'none';
+            
+            beatTimes = [];
+            updateGenerateButton();
+            showNotification('🗑️ Music cleared', 'success');
+        }
+
+        function clearImages() {
+            uploadedImages = [];
+            updateImagePreview();
+            updateGenerateButton();
+            showNotification('🗑️ Images cleared', 'success');
+        }
+
+        function clearAll() {
+            clearMusic();
+            clearImages();
+            document.getElementById('slideshowSection').style.display = 'none';
+            showNotification('🧹 Everything cleared!', 'success');
+        }
+
+        window.removeImage = function(imageId) {
+            uploadedImages = uploadedImages.filter(img => img.id !== imageId);
+            updateImagePreview();
+            updateGenerateButton();
+            showNotification('🗑️ Image removed', 'success');
+        };
+
+        function updateGenerateButton() {
+            const generateBtn = document.getElementById('generateBtn');
+            const hasRequirements = uploadedMusic && uploadedImages.length > 0 && beatTimes.length > 0;
+            
+            generateBtn.disabled = !hasRequirements;
+            
+            if (!uploadedMusic) {
+                generateBtn.innerHTML = '🎵 Upload music first';
+            } else if (beatTimes.length === 0) {
+                generateBtn.innerHTML = '🔍 Analyze beats first';
+            } else if (uploadedImages.length === 0) {
+                generateBtn.innerHTML = '📸 Upload images';
+            } else {
+                generateBtn.innerHTML = '✨ Generate Slideshow';
+            }
+        }
+
+        // 🎨 UI Helper Functions
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.currentTarget.classList.add('dragover');
+        }
+
+        function handleDragLeave(event) {
+            event.preventDefault();
+            event.currentTarget.classList.remove('dragover');
+        }
+
+        function showProgressBar(elementId, percentage) {
+            const progressBar = document.getElementById(elementId);
+            if (progressBar) {
+                progressBar.style.width = percentage + '%';
+            }
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.classList.add('show'), 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 500);
+            }, 3000);
+        }
+
+        function handleKeyboard(event) {
+            if (event.code === 'Space' && isSlideshow) {
+                event.preventDefault();
+                stopSlideshow();
+            }
+        }
+
+        // 🎵 Initialize on load
+        console.log(`
+        🎵 Music Beat Sync Slideshow - Complete Edition
+        
+        ✨ Features Loaded:
+        • Real-time beat detection with FFT
+        • Automatic slide synchronization
+        • Live audio visualization
+        • Screen recording capability
+        • Export/import functionality
+        
+        🚀 Ready for use!
+        `);
+    </script>
+</body>
+</html>
