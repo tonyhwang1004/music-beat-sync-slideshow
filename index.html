@@ -1127,15 +1127,24 @@
             }
 
             async setupAudioContext() {
-                this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                this.analyser = this.audioContext.createAnalyser();
-                this.analyser.fftSize = 512;
+                try {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    this.analyser = this.audioContext.createAnalyser();
+                    this.analyser.fftSize = 1024; // Increased for better frequency resolution
+                    this.analyser.smoothingTimeConstant = 0.3; // Reduced for more responsive detection
 
-                const source = this.audioContext.createMediaElementSource(this.audioElement);
-                source.connect(this.analyser);
-                source.connect(this.audioContext.destination);
+                    const source = this.audioContext.createMediaElementSource(this.audioElement);
+                    source.connect(this.analyser);
+                    source.connect(this.audioContext.destination);
 
-                this.startBeatDetection();
+                    console.log('🎵 Audio context setup complete');
+                    console.log(`FFT Size: ${this.analyser.fftSize}, Frequency Bin Count: ${this.analyser.frequencyBinCount}`);
+                    
+                    this.startBeatDetection();
+                } catch (error) {
+                    console.error('Audio context setup failed:', error);
+                    this.updateStatus('오디오 설정 실패');
+                }
             }
 
             async toggleMicrophone() {
@@ -1167,6 +1176,7 @@
             startBeatDetection() {
                 const bufferLength = this.analyser.frequencyBinCount;
                 const dataArray = new Uint8Array(bufferLength);
+                let lastBeatDetected = 0;
                 
                 const detectBeat = () => {
                     if (!this.analyser) return;
@@ -1178,8 +1188,8 @@
                     let midEnergy = 0;
                     let highEnergy = 0;
                     
-                    const bassRange = Math.floor(bufferLength * 0.1);
-                    const midRange = Math.floor(bufferLength * 0.4);
+                    const bassRange = Math.floor(bufferLength * 0.15);
+                    const midRange = Math.floor(bufferLength * 0.5);
                     
                     for (let i = 0; i < bassRange; i++) {
                         bassEnergy += dataArray[i];
@@ -1198,19 +1208,26 @@
                     // Update visualizer
                     this.updateVisualizerWithData(dataArray);
 
-                    // Beat detection
+                    // Enhanced beat detection
                     const now = Date.now();
-                    const totalEnergy = (bassEnergy + midEnergy + highEnergy) / 3;
+                    const totalEnergy = (bassEnergy * 2 + midEnergy + highEnergy) / 4; // Weight bass more
+                    const energyThreshold = this.beatThreshold * 80; // Lower threshold for better detection
                     
-                    if (totalEnergy > this.beatThreshold * 100 && now - this.lastBeatTime > this.beatCooldown) {
+                    // Detect beat with better algorithm
+                    if (totalEnergy > energyThreshold && now - lastBeatDetected > this.beatCooldown) {
+                        console.log(`🎵 BEAT DETECTED! Energy: ${totalEnergy.toFixed(1)}, Bass: ${bassEnergy.toFixed(1)}, Mid: ${midEnergy.toFixed(1)}, High: ${highEnergy.toFixed(1)}`);
                         this.onBeatDetected(bassEnergy, midEnergy, highEnergy);
-                        this.lastBeatTime = now;
+                        lastBeatDetected = now;
+                        
+                        // Visual feedback for debugging
+                        this.updateStatus(`🎵 비트 감지! 에너지: ${totalEnergy.toFixed(1)}`);
                     }
 
                     requestAnimationFrame(detectBeat);
                 };
 
                 detectBeat();
+                console.log('🎵 Beat detection started!');
             }
 
             onBeatDetected(bassEnergy, midEnergy, highEnergy) {
@@ -1249,9 +1266,21 @@
 
             getBeatIntensity(bass, mid, high) {
                 const total = (bass + mid + high) / 3;
-                if (total > 200) return 'extreme';
-                if (total > 150) return 'strong';
-                if (total > 100) return 'medium';
+                console.log(`🎚️ Energy levels - Bass: ${bass.toFixed(1)}, Mid: ${mid.toFixed(1)}, High: ${high.toFixed(1)}, Total: ${total.toFixed(1)}`);
+                
+                if (total > 150) {
+                    console.log('🔥 EXTREME intensity detected!');
+                    return 'extreme';
+                }
+                if (total > 100) {
+                    console.log('💪 STRONG intensity detected!');
+                    return 'strong';
+                }
+                if (total > 60) {
+                    console.log('⚡ MEDIUM intensity detected!');
+                    return 'medium';
+                }
+                console.log('🌊 WEAK intensity detected');
                 return 'weak';
             }
 
@@ -1285,62 +1314,94 @@
             }
 
             applyCrazyEffects(intensity, bass, mid, high) {
+                console.log(`🎨 Applying ${intensity} effects - Bass: ${bass}, Mid: ${mid}, High: ${high}`);
+                
                 const photos = document.querySelectorAll('.photo');
+                const containers = document.querySelectorAll('.photo-container');
                 const displayContent = document.getElementById('displayContent');
                 
-                // Clear previous effects
+                if (photos.length === 0) {
+                    console.log('❌ No photos found to apply effects to');
+                    return;
+                }
+                
+                // Clear ALL previous effects first
                 photos.forEach(photo => {
                     this.danceEffects.forEach(effect => {
                         photo.classList.remove(effect);
                     });
+                    // Clear any inline styles
+                    setTimeout(() => {
+                        photo.style.filter = '';
+                        photo.style.transform = '';
+                    }, 10);
+                });
+                
+                containers.forEach(container => {
+                    container.classList.remove('beat-pulse');
                 });
                 
                 displayContent.classList.remove('beat-shake', 'beat-flash');
                 
-                // Apply new effects based on frequency analysis
-                switch(intensity) {
-                    case 'extreme':
-                        this.triggerExtremeEffects(photos, displayContent, bass, mid, high);
-                        break;
-                    case 'strong':
-                        this.triggerStrongEffects(photos, displayContent, bass, mid, high);
-                        break;
-                    case 'medium':
-                        this.triggerMediumEffects(photos, displayContent, bass, mid, high);
-                        break;
-                    case 'weak':
-                        this.triggerWeakEffects(photos, displayContent);
-                        break;
-                }
+                // Apply new effects immediately
+                setTimeout(() => {
+                    switch(intensity) {
+                        case 'extreme':
+                            this.triggerExtremeEffects(photos, displayContent, bass, mid, high);
+                            break;
+                        case 'strong':
+                            this.triggerStrongEffects(photos, displayContent, bass, mid, high);
+                            break;
+                        case 'medium':
+                            this.triggerMediumEffects(photos, displayContent, bass, mid, high);
+                            break;
+                        case 'weak':
+                            this.triggerWeakEffects(photos, displayContent);
+                            break;
+                    }
+                }, 20);
             }
 
             triggerExtremeEffects(photos, container, bass, mid, high) {
+                console.log('🔥 EXTREME EFFECTS TRIGGERED!');
+                
                 // Container effects
                 container.classList.add('beat-shake', 'beat-flash');
                 
-                // Multiple floating photos
-                this.createFloatingPhotos(3 + Math.floor(Math.random() * 3));
-                
-                // Crazy photo effects
-                photos.forEach(photo => {
+                // Apply effects to all visible photos
+                photos.forEach((photo, index) => {
                     const effect = this.danceEffects[Math.floor(Math.random() * this.danceEffects.length)];
+                    console.log(`Applying ${effect} to photo ${index}`);
                     photo.classList.add(effect);
                     
                     // Additional extreme styling
+                    const brightness = 1.5 + Math.random();
+                    const saturation = 2 + Math.random();
+                    const hue = Math.random() * 360;
+                    const blur = Math.random() * 3;
+                    
                     photo.style.filter = `
-                        brightness(${1.5 + Math.random()})
-                        saturate(${2 + Math.random()})
-                        hue-rotate(${Math.random() * 360}deg)
-                        blur(${Math.random() * 3}px)
+                        brightness(${brightness})
+                        saturate(${saturation})
+                        hue-rotate(${hue}deg)
+                        blur(${blur}px)
                     `;
                     
+                    // Clear filter after effect
                     setTimeout(() => {
                         photo.style.filter = '';
-                    }, 800);
+                    }, 1000);
                 });
+                
+                // Create floating photos
+                if (this.photos.length > 0) {
+                    this.createFloatingPhotos(3 + Math.floor(Math.random() * 3));
+                }
             }
 
             triggerStrongEffects(photos, container, bass, mid, high) {
+                console.log('💪 STRONG EFFECTS TRIGGERED!');
+                
                 // Determine effect based on dominant frequency
                 let dominantEffect;
                 if (bass > mid && bass > high) {
@@ -1351,28 +1412,39 @@
                     dominantEffect = ['beat-shake', 'beat-flip', 'beat-glitch'][Math.floor(Math.random() * 3)];
                 }
                 
-                photos.forEach(photo => {
+                console.log(`Applying dominant effect: ${dominantEffect}`);
+                
+                photos.forEach((photo, index) => {
                     photo.classList.add(dominantEffect);
+                    console.log(`Applied ${dominantEffect} to photo ${index}`);
                 });
                 
                 // Create floating photos occasionally
-                if (Math.random() > 0.6) {
+                if (Math.random() > 0.6 && this.photos.length > 0) {
                     this.createFloatingPhotos(1 + Math.floor(Math.random() * 2));
                 }
             }
 
             triggerMediumEffects(photos, container, bass, mid, high) {
+                console.log('⚡ MEDIUM EFFECTS TRIGGERED!');
+                
                 const lightEffects = ['beat-dance', 'beat-bounce', 'beat-spin'];
                 const selectedEffect = lightEffects[Math.floor(Math.random() * lightEffects.length)];
                 
-                photos.forEach(photo => {
+                console.log(`Applying medium effect: ${selectedEffect}`);
+                
+                photos.forEach((photo, index) => {
                     photo.classList.add(selectedEffect);
+                    console.log(`Applied ${selectedEffect} to photo ${index}`);
                 });
             }
 
             triggerWeakEffects(photos, container) {
-                photos.forEach(photo => {
+                console.log('🌊 WEAK EFFECTS TRIGGERED!');
+                
+                photos.forEach((photo, index) => {
                     photo.classList.add('beat-dance');
+                    console.log(`Applied beat-dance to photo ${index}`);
                 });
             }
 
