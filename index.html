@@ -11,30 +11,108 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
+            handleKeyboard(event) {
+                switch(event.key) {
+                    case 'ArrowLeft':
+                        this.previousPhoto();
+                        break;
+                    case 'ArrowRight':
+                        this.nextPhoto();
+                        break;
+                    case ' ':
+                        event.preventDefault();
+                        this.togglePlayPause();
+                        break;
+                    case 'a':
+                    case 'A':
+                        this.toggleAutoMode();
+                        break;
+                    case 'f':
+                    case 'F':
+                        this.toggleFullscreen();
+                        break;
+                document.getElementById('speedBtn').addEventListener('click', () => this.cycleSpeed());
+                
+                // Add test dance button for debugging
+                const testBtn = document.createElement('button');
+                testBtn.className = 'btn';
+                testBtn.textContent = '🧪 극한 테스트';
+                testBtn.onclick = () => this.triggerTestDance();
+                document.querySelector('.control-card:last-child').appendChild(testBtn);
+                
+                // Add continuous mode button
+                const continuousBtn = document.createElement('button');
+                continuousBtn.className = 'btn';
+                continuousBtn.textContent = '🎪 연속 모드';
+                continuousBtn.onclick = () => this.toggleContinuousMode();
+                document.querySelector('.control-card:last-child').appendChild(continuousBtn);
+                class BeatSyncStudio {
+            constructor() {
+                this.photos = [];
+                this.currentIndex = 0;
+                this.isPlaying = false;
+                this.isAutoMode = true;
+                this.audioContext = null;
+                this.analyser = null;
+                this.audioElement = null;
+                this.microphone = null;
+                this.beatThreshold = 1.2;
+                this.sensitivity = 1;
+                this.effectLevel = 2;
+                this.lastBeatTime = 0;
+                this.beatCooldown = 300;
+                this.visualizerBars = [];
+                this.isFullscreen = false;
+                this.multiPhotoMode = false;
+                this.floatingPhotos = [];
+                this.beatCount = 0;
+                this.lastStrongBeat = 0;
+                this.energyHistory = [];
+                this.continuousMode = false;
+                this.continuousInterval = null;
+                
+                // Dance move arrays
+                this.danceEffects = [
+                    'beat-dance', 'beat-bounce', 'beat-spin', 'beat-shake',
+                    'beat-zoom-crazy', 'beat-flip', 'beat-wave', 'beat-explosion',
+                    'beat-spiral', 'beat-glitch'
+                ];
+                
+                this.init();
+            }
+            }
 
         :root {
-            --neon-pink: #ff006e;
-            --neon-blue: #8338ec;
-            --neon-cyan: #06ffa5;
-            --neon-orange: #fb8500;
-            --deep-purple: #240046;
-            --cosmic-gradient: linear-gradient(135deg, #240046 0%, #3c096c 25%, #5a189a 50%, #7209b7 75%, #9d4edd 100%);
-            --energy-gradient: linear-gradient(45deg, #ff006e 0%, #8338ec 25%, #3a86ff 50%, #06ffa5 75%, #ffbe0b 100%);
-            --glass: rgba(255, 255, 255, 0.05);
+            --neon-pink: #ff0080;
+            --neon-blue: #0080ff;
+            --neon-cyan: #00ffff;
+            --neon-purple: #8000ff;
+            --neon-green: #00ff80;
+            --neon-orange: #ff8000;
+            --deep-dark: #0a0a0f;
+            --glass-dark: rgba(0, 0, 0, 0.2);
+            --glass-light: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
-            --shadow-glow: 0 0 40px rgba(255, 0, 110, 0.3);
+            --cosmic-gradient: 
+                radial-gradient(circle at 20% 50%, rgba(120, 0, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 0, 128, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(0, 255, 255, 0.2) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0a0f 0%, #1a0a1f 50%, #0f0a1a 100%);
+            --energy-gradient: linear-gradient(45deg, #ff0080, #0080ff, #00ffff, #8000ff, #00ff80);
+            --shadow-neon: 0 0 30px rgba(255, 0, 128, 0.3), 0 0 60px rgba(0, 128, 255, 0.2);
         }
 
         body {
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--cosmic-gradient);
             background-size: 400% 400%;
-            animation: cosmicFlow 20s ease infinite;
+            animation: cosmicFlow 25s ease infinite;
             min-height: 100vh;
             color: white;
             overflow-x: hidden;
             position: relative;
+            margin: 0;
+            padding: 0;
         }
 
         @keyframes cosmicFlow {
@@ -44,7 +122,7 @@
             75% { background-position: 0% 0%; }
         }
 
-        /* Cosmic Background Effects */
+        /* Enhanced Cosmic Background */
         .cosmic-bg {
             position: fixed;
             top: 0;
@@ -57,29 +135,49 @@
 
         .star {
             position: absolute;
-            background: white;
+            background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0.8) 30%, transparent 70%);
             border-radius: 50%;
-            animation: twinkle 3s ease-in-out infinite;
+            animation: advancedTwinkle 4s ease-in-out infinite;
         }
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
+        @keyframes advancedTwinkle {
+            0%, 100% { 
+                opacity: 0.3; 
+                transform: scale(1) rotate(0deg);
+                box-shadow: 0 0 5px rgba(255,255,255,0.5);
+            }
+            50% { 
+                opacity: 1; 
+                transform: scale(1.3) rotate(180deg);
+                box-shadow: 0 0 15px rgba(255,255,255,0.8), 0 0 25px rgba(0,128,255,0.4);
+            }
         }
 
         .energy-wave {
             position: fixed;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, transparent 0%, rgba(255, 0, 110, 0.1) 50%, transparent 100%);
+            background: 
+                radial-gradient(circle, transparent 0%, rgba(255, 0, 128, 0.1) 30%, transparent 60%),
+                radial-gradient(circle, transparent 20%, rgba(0, 128, 255, 0.08) 40%, transparent 70%);
             border-radius: 50%;
-            animation: energyPulse 4s ease-in-out infinite;
+            animation: enhancedEnergyPulse 8s ease-in-out infinite;
             z-index: -1;
         }
 
-        @keyframes energyPulse {
-            0%, 100% { transform: scale(0.8) rotate(0deg); opacity: 0.3; }
-            50% { transform: scale(1.2) rotate(180deg); opacity: 0.1; }
+        @keyframes enhancedEnergyPulse {
+            0%, 100% { 
+                transform: scale(0.8) rotate(0deg); 
+                opacity: 0.4; 
+            }
+            33% { 
+                transform: scale(1.2) rotate(120deg); 
+                opacity: 0.2; 
+            }
+            66% { 
+                transform: scale(1.4) rotate(240deg); 
+                opacity: 0.1; 
+            }
         }
 
         /* Main Container */
@@ -92,28 +190,50 @@
         /* Header */
         .main-header {
             text-align: center;
-            padding: 40px 20px;
+            padding: 60px 20px 40px;
             position: relative;
             z-index: 10;
+            background: var(--glass-dark);
+            backdrop-filter: blur(30px);
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-neon);
         }
 
         .logo-title {
-            font-size: clamp(3rem, 8vw, 6rem);
+            font-size: clamp(3.5rem, 8vw, 7rem);
             font-weight: 900;
             background: var(--energy-gradient);
-            background-size: 200% 200%;
+            background-size: 400% 400%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: energyText 3s ease-in-out infinite;
-            text-shadow: 0 0 60px rgba(255, 0, 110, 0.5);
+            animation: enhancedEnergyText 4s ease-in-out infinite;
+            text-shadow: 
+                0 0 30px rgba(255, 0, 128, 0.5),
+                0 0 60px rgba(0, 128, 255, 0.3),
+                0 0 90px rgba(0, 255, 255, 0.2);
             margin-bottom: 20px;
-            filter: drop-shadow(0 0 20px rgba(131, 56, 236, 0.7));
+            filter: drop-shadow(0 0 20px rgba(255, 0, 128, 0.7));
+            letter-spacing: 0.05em;
         }
 
-        @keyframes energyText {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+        @keyframes enhancedEnergyText {
+            0%, 100% { 
+                background-position: 0% 50%; 
+                transform: scale(1);
+            }
+            25% { 
+                background-position: 100% 50%; 
+                transform: scale(1.02);
+            }
+            50% { 
+                background-position: 200% 50%; 
+                transform: scale(1);
+            }
+            75% { 
+                background-position: 300% 50%; 
+                transform: scale(1.01);
+            }
         }
 
         .subtitle {
@@ -121,26 +241,33 @@
             color: rgba(255, 255, 255, 0.9);
             font-weight: 300;
             margin-bottom: 40px;
-            text-shadow: 0 0 20px rgba(6, 255, 165, 0.5);
+            text-shadow: 
+                0 0 20px rgba(0, 255, 255, 0.5),
+                0 0 40px rgba(255, 0, 128, 0.3);
+            line-height: 1.4;
         }
 
         /* Control Panel */
         .control-panel {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 0 20px 30px;
-            max-width: 1400px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            padding: 0 30px 40px;
+            max-width: 1600px;
             margin: 0 auto;
         }
 
         .control-card {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
+            background: 
+                linear-gradient(135deg, var(--glass-dark) 0%, var(--glass-light) 100%),
+                linear-gradient(135deg, rgba(255, 0, 128, 0.05) 0%, rgba(0, 128, 255, 0.05) 100%);
+            backdrop-filter: blur(25px);
             border-radius: 25px;
-            padding: 30px;
+            padding: 35px;
             border: 1px solid var(--glass-border);
-            box-shadow: var(--shadow-glow);
+            box-shadow: 
+                var(--shadow-neon),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
             transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             position: relative;
             overflow: hidden;
@@ -158,8 +285,12 @@
         }
 
         .control-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 60px rgba(255, 0, 110, 0.4);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+                0 25px 80px rgba(255, 0, 128, 0.3),
+                0 10px 40px rgba(0, 128, 255, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 0, 128, 0.3);
         }
 
         .control-card:hover::before {
@@ -167,48 +298,342 @@
         }
 
         .card-title {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--neon-cyan);
+            margin-bottom: 25px;
+            background: var(--energy-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
         }
 
         .upload-zone {
-            border: 3px dashed var(--neon-pink);
+            border: 2px dashed var(--neon-cyan);
             border-radius: 20px;
-            padding: 40px 20px;
+            padding: 45px 25px;
             text-align: center;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            background: 
+                linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, rgba(255, 0, 128, 0.02) 100%);
+        }
+
+        .upload-zone::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 50%);
+            transform: scale(0);
+            transition: transform 0.6s ease-out;
         }
 
         .upload-zone:hover {
-            border-color: var(--neon-cyan);
-            background: rgba(255, 0, 110, 0.1);
-            transform: scale(1.02);
+            border-color: var(--neon-pink);
+            background: 
+                linear-gradient(135deg, rgba(255, 0, 128, 0.08) 0%, rgba(0, 255, 255, 0.05) 100%);
+            transform: scale(1.03);
+            box-shadow: 
+                0 0 30px rgba(0, 255, 255, 0.3),
+                inset 0 0 30px rgba(255, 0, 128, 0.1);
+        }
+
+        .upload-zone:hover::before {
+            transform: scale(1);
         }
 
         .upload-zone.dragover {
-            border-color: var(--neon-cyan);
-            background: rgba(6, 255, 165, 0.1);
+            border-color: var(--neon-green);
+            background: 
+                linear-gradient(135deg, rgba(0, 255, 128, 0.1) 0%, rgba(0, 255, 255, 0.08) 100%);
             transform: scale(1.05);
+            box-shadow: 
+                0 0 40px rgba(0, 255, 128, 0.4),
+                inset 0 0 40px rgba(0, 255, 255, 0.2);
         }
 
         .upload-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            animation: float 3s ease-in-out infinite;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            animation: enhancedFloat 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 15px rgba(0, 255, 255, 0.6));
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+        @keyframes enhancedFloat {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg) scale(1); 
+                filter: drop-shadow(0 0 15px rgba(0, 255, 255, 0.6));
+            }
+            25% { 
+                transform: translateY(-8px) rotate(2deg) scale(1.05); 
+                filter: drop-shadow(0 0 20px rgba(255, 0, 128, 0.6));
+            }
+            50% { 
+                transform: translateY(-12px) rotate(0deg) scale(1.1); 
+                filter: drop-shadow(0 0 25px rgba(0, 255, 128, 0.6));
+            }
+            75% { 
+                transform: translateY(-8px) rotate(-2deg) scale(1.05); 
+                filter: drop-shadow(0 0 20px rgba(128, 0, 255, 0.6));
+            }
+        }
+
+        .btn {
+            background: var(--energy-gradient);
+            background-size: 400% 400%;
+            border: none;
+            padding: 18px 35px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            font-size: 1rem;
+            width: 100%;
+            margin: 12px 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 8px 32px rgba(255, 0, 128, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 
+                0 15px 45px rgba(255, 0, 128, 0.5),
+                0 5px 15px rgba(0, 128, 255, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            animation: enhancedEnergyButton 0.6s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        @keyframes enhancedEnergyButton {
+            0%, 100% { background-position: 0% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 200% 50%; }
+            75% { background-position: 300% 50%; }
+        }
+
+        /* Restored Main Display with Effects */
+        .main-display {
+            flex: 1;
+            position: relative;
+            margin: 30px;
+            border-radius: 30px;
+            overflow: hidden;
+            background: 
+                linear-gradient(135deg, var(--glass-dark) 0%, var(--glass-light) 100%),
+                linear-gradient(135deg, rgba(255, 0, 128, 0.05) 0%, rgba(0, 128, 255, 0.05) 100%);
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 
+                var(--shadow-neon),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .display-content {
+            position: relative;
+            width: 100%;
+            height: 70vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Welcome Screen Enhancement */
+        .welcome-screen {
+            text-align: center;
+            padding: 80px 60px;
+            background: 
+                radial-gradient(circle at center, rgba(255, 0, 128, 0.1) 0%, transparent 60%),
+                radial-gradient(circle at 30% 70%, rgba(0, 255, 255, 0.08) 0%, transparent 50%);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .welcome-title {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            margin-bottom: 40px;
+            background: var(--energy-gradient);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: enhancedEnergyText 4s ease-in-out infinite;
+            text-shadow: 
+                0 0 30px rgba(255, 0, 128, 0.5),
+                0 0 60px rgba(0, 128, 255, 0.3);
+        }
+
+        .welcome-text {
+            font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+            opacity: 0.9;
+            line-height: 1.8;
+            max-width: 700px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Enhanced Status Bar */
+        .status-bar {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            right: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: 
+                linear-gradient(135deg, var(--glass-dark) 0%, var(--glass-light) 100%);
+            backdrop-filter: blur(25px);
+            border-radius: 50px;
+            padding: 18px 30px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .pulse-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--energy-gradient);
+            background-size: 200% 200%;
+            animation: enhancedPulse 2s ease-in-out infinite;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+        }
+
+        @keyframes enhancedPulse {
+            0%, 100% { 
+                opacity: 1; 
+                transform: scale(1);
+                background-position: 0% 50%;
+                box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            }
+            50% { 
+                opacity: 0.7; 
+                transform: scale(1.3);
+                background-position: 100% 50%;
+                box-shadow: 0 0 25px rgba(255, 0, 128, 0.8);
+            }
+        }
+
+        .slide-counter {
+            background: var(--energy-gradient);
+            background-size: 200% 200%;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            animation: enhancedEnergyText 3s ease-in-out infinite;
+            box-shadow: 0 4px 15px rgba(255, 0, 128, 0.3);
+        }
+
+        /* Enhanced Audio Visualizer */
+        .visualizer-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 140px;
+            background: 
+                linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.2) 50%, transparent 100%);
+            backdrop-filter: blur(15px);
+            display: flex;
+            justify-content: center;
+            align-items: end;
+            padding: 25px;
+            gap: 4px;
+        }
+
+        .visualizer-bar {
+            width: 8px;
+            background: var(--energy-gradient);
+            background-size: 200% 200%;
+            border-radius: 4px;
+            transition: height 0.1s ease;
+            min-height: 15px;
+            box-shadow: 
+                0 0 10px rgba(255, 0, 128, 0.4),
+                0 0 20px rgba(0, 255, 255, 0.2);
+            animation: barGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes barGlow {
+            0%, 100% { 
+                background-position: 0% 50%;
+                box-shadow: 
+                    0 0 10px rgba(255, 0, 128, 0.4),
+                    0 0 20px rgba(0, 255, 255, 0.2);
+            }
+            50% { 
+                background-position: 100% 50%;
+                box-shadow: 
+                    0 0 15px rgba(0, 255, 255, 0.6),
+                    0 0 30px rgba(255, 0, 128, 0.3);
+            }
+        }
+
+        .visualizer-bar.beat-active {
+            animation: enhancedBarPulse 0.3s ease-out;
+        }
+
+        @keyframes enhancedBarPulse {
+            0% { 
+                height: var(--bar-height); 
+                box-shadow: 
+                    0 0 10px rgba(255, 0, 128, 0.4),
+                    0 0 20px rgba(0, 255, 255, 0.2);
+            }
+            50% { 
+                height: calc(var(--bar-height) * 1.8); 
+                box-shadow: 
+                    0 0 25px rgba(0, 255, 255, 0.8),
+                    0 0 50px rgba(255, 0, 128, 0.6);
+            }
+            100% { 
+                height: var(--bar-height); 
+                box-shadow: 
+                    0 0 15px rgba(255, 0, 128, 0.5),
+                    0 0 30px rgba(0, 255, 255, 0.3);
+            }
+        }50% { transform: translateY(-10px); }
         }
 
         .btn {
@@ -565,15 +990,122 @@
             animation: particleFloat 2s ease-out forwards;
         }
 
-        @keyframes particleFloat {
-            0% {
-                transform: scale(0) translateY(0);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1) translateY(-200px);
+        /* Additional Extreme Effects */
+        .chaos-photo {
+            animation: chaosAnimation 1s ease-out infinite !important;
+        }
+
+        .explosion-photo {
+            filter: brightness(2) saturate(2) !important;
+        }
+
+        .rain-photo {
+            filter: brightness(1.3) saturate(1.5) drop-shadow(0 0 10px rgba(255,255,255,0.5)) !important;
+        }
+
+        .float-photo {
+            filter: brightness(1.2) saturate(1.5) drop-shadow(0 0 15px rgba(255,0,110,0.4)) !important;
+        }
+
+        .gentle-explosion {
+            filter: brightness(1.5) saturate(1.5) drop-shadow(0 0 20px rgba(6,255,165,0.6)) !important;
+        }
+
+        .secondary-spin {
+            animation: secondarySpin 2s linear infinite !important;
+        }
+
+        .secondary-bounce {
+            animation: secondaryBounce 1s ease-in-out infinite !important;
+        }
+
+        .secondary-glow {
+            animation: secondaryGlow 1.5s ease-in-out infinite !important;
+        }
+
+        .secondary-pulse {
+            animation: secondaryPulse 0.8s ease-in-out infinite !important;
+        }
+
+        .secondary-drift {
+            animation: secondaryDrift 3s ease-in-out infinite !important;
+        }
+
+        @keyframes chaosAnimation {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(90deg) scale(1.2); filter: hue-rotate(90deg); }
+            50% { transform: rotate(180deg) scale(0.8); filter: hue-rotate(180deg); }
+            75% { transform: rotate(270deg) scale(1.3); filter: hue-rotate(270deg); }
+            100% { transform: rotate(360deg) scale(1); filter: hue-rotate(360deg); }
+        }
+
+        @keyframes chaosExit {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0) rotate(720deg); }
+        }
+
+        @keyframes secondarySpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes secondaryBounce {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-30px); }
+        }
+
+        @keyframes secondaryGlow {
+            0%, 100% { filter: brightness(1) drop-shadow(0 0 5px rgba(255,255,255,0.3)); }
+            50% { filter: brightness(1.5) drop-shadow(0 0 20px rgba(255,0,110,0.8)); }
+        }
+
+        @keyframes secondaryPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes secondaryDrift {
+            0%, 100% { transform: translateX(0px) translateY(0px); }
+            25% { transform: translateX(20px) translateY(-10px); }
+            50% { transform: translateX(-15px) translateY(15px); }
+            75% { transform: translateX(10px) translateY(-20px); }
+        }
+
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        @keyframes elementFloat {
+            0% { 
+                transform: translateY(0px) scale(0);
                 opacity: 0;
             }
+            20% {
+                transform: translateY(-50px) scale(1);
+                opacity: 1;
+            }
+            80% {
+                transform: translateY(-200px) scale(1);
+                opacity: 0.8;
+            }
+            100% { 
+                transform: translateY(-400px) scale(0);
+                opacity: 0;
+            }
+        }
+
+        @keyframes screenShake {
+            0%, 100% { transform: translateX(0px) translateY(0px); }
+            10% { transform: translateX(-10px) translateY(5px); }
+            20% { transform: translateX(15px) translateY(-10px); }
+            30% { transform: translateX(-20px) translateY(15px); }
+            40% { transform: translateX(25px) translateY(-20px); }
+            50% { transform: translateX(-15px) translateY(10px); }
+            60% { transform: translateX(10px) translateY(-5px); }
+            70% { transform: translateX(-5px) translateY(8px); }
+            80% { transform: translateX(8px) translateY(-3px); }
+            90% { transform: translateX(-3px) translateY(2px); }
         }
 
         /* Crazy Beat Animations */
@@ -985,7 +1517,7 @@
             pointer-events: none;
         }
 
-        /* Fullscreen Mode */
+        /* Fullscreen Mode Enhancement */
         .fullscreen {
             position: fixed !important;
             top: 0 !important;
@@ -995,6 +1527,7 @@
             z-index: 9999 !important;
             margin: 0 !important;
             border-radius: 0 !important;
+            background: var(--cosmic-gradient) !important;
         }
 
         .fullscreen .control-panel {
@@ -1003,6 +1536,76 @@
 
         .fullscreen .main-header {
             display: none;
+        }
+
+        /* Beat Effects Enhancement */
+        .beat-effect {
+            position: fixed;
+            pointer-events: none;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: 
+                radial-gradient(circle, rgba(255, 0, 128, 0.8) 0%, rgba(0, 255, 255, 0.4) 50%, transparent 70%);
+            animation: enhancedBeatRipple 0.8s ease-out;
+            z-index: 1000;
+        }
+
+        @keyframes enhancedBeatRipple {
+            0% { 
+                transform: scale(0); 
+                opacity: 1; 
+                background: radial-gradient(circle, rgba(255, 0, 128, 0.8) 0%, rgba(0, 255, 255, 0.4) 50%, transparent 70%);
+            }
+            50% { 
+                transform: scale(2); 
+                opacity: 0.6; 
+                background: radial-gradient(circle, rgba(0, 255, 255, 0.6) 0%, rgba(255, 0, 128, 0.3) 50%, transparent 70%);
+            }
+            100% { 
+                transform: scale(5); 
+                opacity: 0; 
+                background: radial-gradient(circle, rgba(0, 255, 128, 0.4) 0%, rgba(128, 0, 255, 0.2) 50%, transparent 70%);
+            }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .control-panel {
+                grid-template-columns: 1fr;
+                padding: 0 20px 30px;
+                gap: 20px;
+            }
+            
+            .main-display {
+                margin: 20px;
+            }
+            
+            .display-content {
+                height: 60vh;
+            }
+            
+            .card-title {
+                font-size: 1.4rem;
+            }
+            
+            .logo-title {
+                font-size: clamp(2.5rem, 10vw, 4rem);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .control-card {
+                padding: 25px;
+            }
+            
+            .upload-zone {
+                padding: 35px 20px;
+            }
+            
+            .main-header {
+                padding: 40px 15px 30px;
+            }
         }
     </style>
 </head>
@@ -1096,37 +1699,36 @@
     </div>
 
     <script>
-        class BeatSyncStudio {
-            constructor() {
-                this.photos = [];
-                this.currentIndex = 0;
-                this.isPlaying = false;
-                this.isAutoMode = true;
-                this.audioContext = null;
-                this.analyser = null;
-                this.audioElement = null;
-                this.microphone = null;
-                this.beatThreshold = 1.2;
-                this.sensitivity = 1;
-                this.effectLevel = 2;
-                this.lastBeatTime = 0;
-                this.beatCooldown = 300;
-                this.visualizerBars = [];
-                this.isFullscreen = false;
-                this.multiPhotoMode = false;
-                this.floatingPhotos = [];
-                this.beatCount = 0;
-                this.lastStrongBeat = 0;
-                this.energyHistory = [];
+            toggleContinuousMode() {
+                if (!this.continuousMode) {
+                    this.continuousMode = true;
+                    this.startContinuousEffects();
+                    this.updateStatus('🎪 연속 효과 모드 활성화! 계속해서 사진들이 춤춥니다!');
+                } else {
+                    this.continuousMode = false;
+                    if (this.continuousInterval) {
+                        clearInterval(this.continuousInterval);
+                    }
+                    this.updateStatus('🎪 연속 효과 모드 비활성화');
+                }
+            }
+
+            startContinuousEffects() {
+                if (this.photos.length === 0) return;
                 
-                // Dance move arrays
-                this.danceEffects = [
-                    'beat-dance', 'beat-bounce', 'beat-spin', 'beat-shake',
-                    'beat-zoom-crazy', 'beat-flip', 'beat-wave', 'beat-explosion',
-                    'beat-spiral', 'beat-glitch'
-                ];
-                
-                this.init();
+                this.continuousInterval = setInterval(() => {
+                    const intensities = ['weak', 'medium', 'strong', 'extreme'];
+                    const randomIntensity = intensities[Math.floor(Math.random() * intensities.length)];
+                    const randomBass = 80 + Math.random() * 100;
+                    const randomMid = 70 + Math.random() * 80;
+                    const randomHigh = 60 + Math.random() * 70;
+                    
+                    this.executeAggressiveChoreography(randomIntensity, randomBass, randomMid, randomHigh, Date.now());
+                }, 800 + Math.random() * 1200); // 0.8-2초마다 효과
+            }
+
+            updateStatus(message) {
+                document.getElementById('statusText').textContent = message;
             }
 
             init() {
@@ -1152,10 +1754,17 @@
                 // Settings
                 document.getElementById('sensitivityBtn').addEventListener('click', () => this.cycleSensitivity());
                 document.getElementById('effectBtn').addEventListener('click', () => this.cycleEffect());
-                document.getElementById('speedBtn').addEventListener('click', () => this.cycleSpeed());
-                
                 // Keyboard controls
                 document.addEventListener('keydown', (e) => this.handleKeyboard(e));
+            }
+                
+            getRandomPhoto() {
+                return this.photos[Math.floor(Math.random() * this.photos.length)];
+            }
+
+            getRandomPhotos(count) {
+                const shuffled = [...this.photos].sort(() => 0.5 - Math.random());
+                return shuffled.slice(0, Math.min(count, this.photos.length));
             }
 
             setupDragAndDrop() {
@@ -1256,16 +1865,25 @@
                     
                     if (this.audioElement) {
                         this.audioElement.pause();
+                        this.audioElement = null;
                     }
 
                     this.audioElement = new Audio();
                     this.audioElement.src = URL.createObjectURL(file);
+                    this.audioElement.crossOrigin = "anonymous";
+                    
+                    // Wait for audio to be ready
+                    await new Promise((resolve, reject) => {
+                        this.audioElement.onloadeddata = resolve;
+                        this.audioElement.onerror = reject;
+                        this.audioElement.load();
+                    });
                     
                     await this.setupAudioContext();
-                    this.updateStatus(`음악 준비 완료: ${file.name}`);
+                    this.updateStatus(`✅ 음악 준비 완료: ${file.name} - 재생 버튼을 눌러주세요!`);
                     
                 } catch (error) {
-                    this.updateStatus('음악 파일 로딩 오류');
+                    this.updateStatus('❌ 음악 파일 로딩 오류');
                     console.error('Audio setup error:', error);
                 }
             }
@@ -1447,10 +2065,12 @@
                 const bufferLength = this.analyser.frequencyBinCount;
                 const dataArray = new Uint8Array(bufferLength);
                 let lastBeatDetected = 0;
+                let frameCount = 0;
                 
                 const detectBeat = () => {
                     if (!this.analyser) return;
                     
+                    frameCount++;
                     this.analyser.getByteFrequencyData(dataArray);
                     
                     // Calculate energy in different frequency ranges
@@ -1480,24 +2100,35 @@
 
                     // Enhanced beat detection
                     const now = Date.now();
-                    const totalEnergy = (bassEnergy * 2 + midEnergy + highEnergy) / 4; // Weight bass more
-                    const energyThreshold = this.beatThreshold * 80; // Lower threshold for better detection
+                    const totalEnergy = (bassEnergy * 2.5 + midEnergy * 1.5 + highEnergy) / 5; // Weight bass heavily
+                    const energyThreshold = this.beatThreshold * 50; // Even lower threshold
                     
-                    // Detect beat with better algorithm
+                    // Show energy levels every 60 frames (about once per second)
+                    if (frameCount % 60 === 0) {
+                        console.log(`🎚️ Energy levels - Bass: ${bassEnergy.toFixed(1)}, Mid: ${midEnergy.toFixed(1)}, High: ${highEnergy.toFixed(1)}, Total: ${totalEnergy.toFixed(1)}, Threshold: ${energyThreshold.toFixed(1)}`);
+                    }
+                    
+                    // Detect beat with more aggressive algorithm
                     if (totalEnergy > energyThreshold && now - lastBeatDetected > this.beatCooldown) {
                         console.log(`🎵 BEAT DETECTED! Energy: ${totalEnergy.toFixed(1)}, Bass: ${bassEnergy.toFixed(1)}, Mid: ${midEnergy.toFixed(1)}, High: ${highEnergy.toFixed(1)}`);
                         this.onBeatDetected(bassEnergy, midEnergy, highEnergy);
                         lastBeatDetected = now;
                         
                         // Visual feedback for debugging
-                        this.updateStatus(`🎵 비트 감지! 에너지: ${totalEnergy.toFixed(1)}`);
+                        this.updateStatus(`🎵 비트 감지! 에너지: ${totalEnergy.toFixed(1)} (사진들이 춤춰요!)`);
+                    } else if (totalEnergy > energyThreshold * 0.7) {
+                        // Even show weaker beats
+                        if (frameCount % 30 === 0) {
+                            console.log(`🎶 Weak beat detected: ${totalEnergy.toFixed(1)} (threshold: ${energyThreshold.toFixed(1)})`);
+                        }
                     }
 
                     requestAnimationFrame(detectBeat);
                 };
 
                 detectBeat();
-                console.log('🎵 Beat detection started!');
+                console.log('🎵 Beat detection started! Threshold:', this.beatThreshold * 50);
+                this.updateStatus('🎵 비트 감지 시스템 활성화됨');
             }
 
             onBeatDetected(bassEnergy, midEnergy, highEnergy) {
@@ -1978,31 +2609,43 @@
                 }
             }
 
-            clearActiveDances() {
-                // Remove all dancing photos
-                const dancingPhotos = document.querySelectorAll('.dancing-photo');
-                dancingPhotos.forEach(photo => {
-                    if (photo.parentNode) {
-                        photo.parentNode.removeChild(photo);
-                    }
-                });
+        @keyframes particleFloat {
+            0% {
+                transform: scale(0) translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1) translateY(-200px);
+                opacity: 0;
+            }
+        }
+
+            // Add a test function to manually trigger dance
+            triggerTestDance() {
+                console.log('🧪 Manual test dance triggered!');
+                if (this.photos.length === 0) {
+                    console.log('❌ No photos to dance with');
+                    this.updateStatus('❌ 춤출 사진이 없습니다. 사진을 먼저 업로드하세요!');
+                    return;
+                }
                 
-                // Clear shatter containers
-                const shatterContainers = document.querySelectorAll('.shatter-container');
-                shatterContainers.forEach(container => {
-                    if (container.parentNode) {
-                        container.parentNode.removeChild(container);
-                    }
-                });
+                // Simulate extreme effects for testing
+                this.executeAggressiveChoreography('extreme', 150, 120, 100, Date.now());
+                this.updateStatus('🧪 극한 테스트 춤 실행! 사진들이 미친듯이 춤춥니다!');
             }
 
-            getRandomPhoto() {
-                return this.photos[Math.floor(Math.random() * this.photos.length)];
-            }
-
-            getRandomPhotos(count) {
-                const shuffled = [...this.photos].sort(() => 0.5 - Math.random());
-                return shuffled.slice(0, Math.min(count, this.photos.length));
+            // Add a test function to manually trigger dance
+            triggerTestDance() {
+                console.log('🧪 Manual test dance triggered!');
+                if (this.photos.length === 0) {
+                    console.log('❌ No photos to dance with');
+                    this.updateStatus('❌ 춤출 사진이 없습니다. 사진을 먼저 업로드하세요!');
+                    return;
+                }
+                
+                // Simulate a strong beat
+                this.choreographPhotos('strong', 120, 100, 80, Date.now());
+                this.updateStatus('🧪 테스트 춤 실행! 사진들이 춤춥니다!');
             }
 
             getBeatIntensity(bass, mid, high) {
@@ -2373,16 +3016,18 @@
             }
 
             triggerBeatEffect() {
-                // Create beat ripple effect
+                // Enhanced beat ripple effect
                 const effect = document.createElement('div');
                 effect.className = 'beat-effect';
-                effect.style.left = Math.random() * window.innerWidth + 'px';
-                effect.style.top = Math.random() * window.innerHeight + 'px';
+                effect.style.left = Math.random() * (window.innerWidth - 120) + 'px';
+                effect.style.top = Math.random() * (window.innerHeight - 120) + 'px';
                 document.body.appendChild(effect);
                 
                 setTimeout(() => {
-                    effect.remove();
-                }, 600);
+                    if (effect.parentNode) {
+                        effect.parentNode.removeChild(effect);
+                    }
+                }, 800);
             }
 
             triggerPhotoEffect(bassEnergy, midEnergy, highEnergy) {
@@ -2435,30 +3080,41 @@
 
             createStars() {
                 const cosmicBg = document.getElementById('cosmicBg');
-                for (let i = 0; i < 100; i++) {
+                for (let i = 0; i < 150; i++) {
                     const star = document.createElement('div');
                     star.className = 'star';
                     star.style.left = Math.random() * 100 + '%';
                     star.style.top = Math.random() * 100 + '%';
-                    star.style.width = Math.random() * 3 + 1 + 'px';
+                    star.style.width = (Math.random() * 4 + 1) + 'px';
                     star.style.height = star.style.width;
-                    star.style.animationDelay = Math.random() * 3 + 's';
+                    star.style.animationDelay = Math.random() * 4 + 's';
+                    star.style.animationDuration = (Math.random() * 2 + 3) + 's';
                     cosmicBg.appendChild(star);
                 }
             }
 
             togglePlayPause() {
                 if (!this.audioElement) {
-                    this.updateStatus('먼저 음악 파일을 업로드하세요');
+                    this.updateStatus('❌ 먼저 음악 파일을 업로드하세요');
                     return;
                 }
 
                 if (this.isPlaying) {
                     this.audioElement.pause();
-                    this.updateStatus('일시정지됨');
+                    this.updateStatus('⏸️ 일시정지됨');
                 } else {
-                    this.audioElement.play();
-                    this.updateStatus('재생 중 - 비트 감지 활성화');
+                    // Resume audio context if suspended
+                    if (this.audioContext && this.audioContext.state === 'suspended') {
+                        this.audioContext.resume();
+                    }
+                    
+                    this.audioElement.play().then(() => {
+                        this.updateStatus('🎵 재생 중 - 비트 감지 활성화! 사진들이 곧 춤출 거예요!');
+                        console.log('🎵 Audio playing, beat detection should start now!');
+                    }).catch(error => {
+                        console.error('Play failed:', error);
+                        this.updateStatus('❌ 재생 실패');
+                    });
                 }
                 this.isPlaying = !this.isPlaying;
             }
@@ -2553,37 +3209,34 @@
                 document.getElementById('totalSlides').textContent = Math.max(1, this.photos.length);
             }
 
+                    case 't':
+                    case 'T':
+                        this.triggerTestDance();
+                        break;
+                    case 'c':
+                    case 'C':
+                        this.toggleContinuousMode();
+                        break;
+
             updateStatus(message) {
                 document.getElementById('statusText').textContent = message;
             }
+        }
 
-            handleKeyboard(event) {
-                switch(event.key) {
-                    case 'ArrowLeft':
-                        this.previousPhoto();
-                        break;
-                    case 'ArrowRight':
-                        this.nextPhoto();
-                        break;
-                    case ' ':
-                        event.preventDefault();
-                        this.togglePlayPause();
-                        break;
-                    case 'a':
-                    case 'A':
-                        this.toggleAutoMode();
-                        break;
-                    case 'f':
-                    case 'F':
-                        this.toggleFullscreen();
-                        break;
-                }
-            }
+        }
+
         }
 
         // Initialize the application
         document.addEventListener('DOMContentLoaded', () => {
-            new BeatSyncStudio();
+            window.beatSyncApp = new BeatSyncStudio();
+            console.log('🎵 Beat Sync Studio initialized!');
+            console.log('📝 Tips:');
+            console.log('  - 사진 업로드 후 음악 파일을 업로드하세요');
+            console.log('  - 재생 버튼을 눌러 음악을 시작하세요');
+            console.log('  - T키 또는 "극한 테스트" 버튼으로 수동 테스트');
+            console.log('  - C키 또는 "연속 모드" 버튼으로 계속 춤추기');
+            console.log('  - F12 개발자 도구에서 비트 감지 로그 확인');
         });
     </script>
 </body>
