@@ -263,7 +263,7 @@
             overflow: hidden;
         }
 
-        /* Advanced Dynamic Photo Effects */
+        /* Photo Effects */
         .photo-container {
             position: absolute;
             width: 100%;
@@ -293,14 +293,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Dynamic Multi-Photo Choreography */
-        .dance-stage {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
         .dancing-photo {
             position: absolute;
             max-width: 300px;
@@ -312,481 +304,203 @@
             pointer-events: none;
         }
 
-        /* Glass Shatter Effect */
-        .shatter-container {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            perspective: 1000px;
-        }
-
-        .shard {
-            position: absolute;
-            background-size: cover;
-            background-position: center;
-            border-radius: 3px;
-            animation: shatterFly 2s ease-out forwards;
-        }
-
-        @keyframes shatterFly {
-            0% {
-                transform: translateZ(0) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateZ(-500px) rotate(720deg) translateX(var(--shatter-x)) translateY(var(--shatter-y));
-                opacity: 0;
-            }
-        }
-
-       /* Enhanced Paper Crumple Effects */
-        .crumple-photo {
-            animation: paperCrumple 1.5s ease-out forwards;
-            transform-origin: center center;
-        }
-
-        .crumple-slow {
-            animation: paperCrumpleSlow 2.5s ease-out forwards;
-            transform-origin: center center;
-        }
-
-        .crumple-twist {
-            animation: paperCrumpleTwist 2s ease-out forwards;
-            transform-origin: center center;
-        }
-
-        .crumple-fold {
-            animation: paperFold 1.8s ease-out forwards;
-            transform-origin: center center;
-        }
-
-        .crumple-scrunch {
-            animation: paperScrunch 1.2s ease-out forwards;
-            transform-origin: center center;
-        }
-
-        @keyframes paperCrumple {
-            0% {
-                transform: scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
-                filter: brightness(1) sepia(0) contrast(1);
-                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-            }
-            20% {
-                transform: scale(0.9) rotateX(15deg) rotateY(10deg) rotateZ(5deg);
-                filter: brightness(0.9) sepia(0.2) contrast(1.1);
-                box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5);
-            }
-            40% {
-                transform: scale(0.7) rotateX(45deg) rotateY(25deg) rotateZ(15deg);
-                filter: brightness(0.7) sepia(0.4) contrast(1.3);
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-            }
-            60% {
-                transform: scale(0.5) rotateX(90deg) rotateY(60deg) rotateZ(30deg);
-                filter: brightness(0.5) sepia(0.6) contrast(1.5);
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
-            }
-            80% {
-                transform: scale(0.2) rotateX(135deg) rotateY(120deg) rotateZ(60deg);
-                filter: brightness(0.3) sepia(0.8) contrast(1.8);
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-            }
-            100% {
-                transform: scale(0.05) rotateX(180deg) rotateY(180deg) rotateZ(90deg);
-                opacity: 0;
-                filter: brightness(0.1) sepia(1) contrast(2);
-                box-shadow: 0 0px 2px rgba(0, 0, 0, 0.9);
-            }
-        }
-
-        @keyframes paperCrumpleSlow {
-            0% {
-                transform: scale(1) rotateX(0deg) rotateY(0deg) skewX(0deg) skewY(0deg);
-                filter: brightness(1) sepia(0) contrast(1) blur(0px);
-                clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-            }
-            15% {
-                transform: scale(0.95) rotateX(8deg) rotateY(5deg) skewX(2deg) skewY(1deg);
-                filter: brightness(0.95) sepia(0.1) contrast(1.05) blur(0.5px);
-                clip-path: polygon(2% 1%, 98% 3%, 97% 98%, 3% 99%);
-            }
-            30% {
-                transform: scale(0.8) rotateX(25deg) rotateY(15deg) skewX(8deg) skewY(5deg);
-                filter: brightness(0.8) sepia(0.3) contrast(1.2) blur(1px);
-                clip-path: polygon(5% 3%, 95% 8%, 92% 95%, 8% 97%);
-            }
-            50% {
-                transform: scale(0.6) rotateX(60deg) rotateY(40deg) skewX(20deg) skewY(15deg);
-                filter: brightness(0.6) sepia(0.5) contrast(1.4) blur(2px);
-                clip-path: polygon(10% 8%, 88% 15%, 85% 88%, 15% 92%);
-            }
-            70% {
-                transform: scale(0.4) rotateX(100deg) rotateY(80deg) skewX(35deg) skewY(30deg);
-                filter: brightness(0.4) sepia(0.7) contrast(1.6) blur(3px);
-                clip-path: polygon(20% 15%, 75% 25%, 70% 75%, 25% 80%);
-            }
-            85% {
-                transform: scale(0.2) rotateX(140deg) rotateY(130deg) skewX(50deg) skewY(45deg);
-                filter: brightness(0.2) sepia(0.9) contrast(1.8) blur(4px);
-                clip-path: polygon(30% 25%, 60% 40%, 55% 60%, 35% 65%);
-            }
-            100% {
-                transform: scale(0.05) rotateX(180deg) rotateY(180deg) skewX(60deg) skewY(60deg);
-                opacity: 0;
-                filter: brightness(0.1) sepia(1) contrast(2) blur(5px);
-                clip-path: polygon(45% 45%, 55% 50%, 50% 55%, 45% 50%);
-            }
-        }
-
-        @keyframes paperCrumpleTwist {
-            0% {
-                transform: scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
-                filter: brightness(1) hue-rotate(0deg) sepia(0);
-                border-radius: 15px;
-            }
-            25% {
-                transform: scale(0.9) rotateX(30deg) rotateY(15deg) rotateZ(45deg);
-                filter: brightness(0.8) hue-rotate(45deg) sepia(0.3);
-                border-radius: 25px;
-            }
-            50% {
-                transform: scale(0.7) rotateX(90deg) rotateY(45deg) rotateZ(135deg);
-                filter: brightness(0.6) hue-rotate(135deg) sepia(0.6);
-                border-radius: 40px;
-            }
-            75% {
-                transform: scale(0.4) rotateX(160deg) rotateY(90deg) rotateZ(270deg);
-                filter: brightness(0.3) hue-rotate(270deg) sepia(0.8);
-                border-radius: 60px;
-            }
-            100% {
-                transform: scale(0.1) rotateX(220deg) rotateY(180deg) rotateZ(360deg);
-                opacity: 0;
-                filter: brightness(0.1) hue-rotate(360deg) sepia(1);
-                border-radius: 80px;
-            }
-        }
-
-        @keyframes paperFold {
-            0% {
-                transform: scale(1) perspective(1000px) rotateX(0deg) rotateY(0deg);
-                filter: brightness(1) contrast(1);
-                transform-style: preserve-3d;
-            }
-            20% {
-                transform: scale(1) perspective(1000px) rotateX(45deg) rotateY(0deg);
-                filter: brightness(0.8) contrast(1.1);
-            }
-            40% {
-                transform: scale(0.8) perspective(1000px) rotateX(90deg) rotateY(45deg);
-                filter: brightness(0.6) contrast(1.3) sepia(0.3);
-            }
-            60% {
-                transform: scale(0.6) perspective(1000px) rotateX(135deg) rotateY(90deg);
-                filter: brightness(0.4) contrast(1.5) sepia(0.6);
-            }
-            80% {
-                transform: scale(0.3) perspective(1000px) rotateX(170deg) rotateY(135deg);
-                filter: brightness(0.2) contrast(1.7) sepia(0.8);
-            }
-            100% {
-                transform: scale(0.1) perspective(1000px) rotateX(180deg) rotateY(180deg);
-                opacity: 0;
-                filter: brightness(0.1) contrast(2) sepia(1);
-            }
-        }
-
-        @keyframes paperScrunch {
-            0% {
-                transform: scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
-                filter: brightness(1) blur(0px) sepia(0);
-                clip-path: circle(100% at 50% 50%);
-            }
-            30% {
-                transform: scale(0.7) rotateX(60deg) rotateY(30deg) rotateZ(30deg);
-                filter: brightness(0.7) blur(1px) sepia(0.3);
-                clip-path: circle(80% at 50% 50%);
-            }
-            60% {
-                transform: scale(0.4) rotateX(120deg) rotateY(90deg) rotateZ(90deg);
-                filter: brightness(0.4) blur(2px) sepia(0.6);
-                clip-path: circle(60% at 50% 50%);
-            }
-            80% {
-                transform: scale(0.2) rotateX(160deg) rotateY(150deg) rotateZ(150deg);
-                filter: brightness(0.2) blur(3px) sepia(0.8);
-                clip-path: circle(30% at 50% 50%);
-            }
-            100% {
-                transform: scale(0.05) rotateX(180deg) rotateY(180deg) rotateZ(180deg);
-                opacity: 0;
-                filter: brightness(0.1) blur(4px) sepia(1);
-                clip-path: circle(10% at 50% 50%);
-            }
-        }
-
-        /* Paper Texture Effects */
-        .paper-texture {
+        /* 🌟 Special Dance Effects */
+        .hologram-dance {
+            animation: hologramDance 2s ease-in-out infinite;
             position: relative;
             overflow: hidden;
         }
 
-        .paper-texture::before {
+        .hologram-dance::before {
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                repeating-linear-gradient(
-                    45deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(255,255,255,0.1) 2px,
-                    rgba(255,255,255,0.1) 4px
-                ),
-                repeating-linear-gradient(
-                    -45deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(0,0,0,0.1) 2px,
-                    rgba(0,0,0,0.1) 4px
-                );
-            pointer-events: none;
-            z-index: 1;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.4), transparent);
+            animation: hologramScan 1s ease-in-out infinite;
         }
 
-        /* Crumple Sound Effect Visual */
-        .crumple-ripple {
-            position: absolute;
-            border: 2px solid rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            animation: crumpleRipple 0.8s ease-out;
-            pointer-events: none;
-        }
-
-        @keyframes crumpleRipple {
-            0% {
-                width: 0;
-                height: 0;
-                opacity: 1;
-            }
-            100% {
-                width: 200px;
-                height: 200px;
-                opacity: 0;
-            }
-        }
-
-        /* Choreographed Dance Moves */
-        .dance-duo-1 {
-            animation: duoDance1 2s ease-in-out infinite;
-        }
-
-        .dance-duo-2 {
-            animation: duoDance2 2s ease-in-out infinite;
-        }
-
-        .dance-trio-1 {
-            animation: trioDance1 3s ease-in-out infinite;
-        }
-
-        .dance-trio-2 {
-            animation: trioDance2 3s ease-in-out infinite;
-        }
-
-        .dance-trio-3 {
-            animation: trioDance3 3s ease-in-out infinite;
-        }
-
-        @keyframes duoDance1 {
+        @keyframes hologramDance {
             0%, 100% { 
-                transform: translateX(-200px) translateY(0px) rotate(0deg) scale(1);
-                filter: hue-rotate(0deg);
+                opacity: 0.8;
+                transform: scale(1) rotateY(0deg);
+                filter: blur(0px) hue-rotate(0deg);
             }
             25% { 
-                transform: translateX(-100px) translateY(-100px) rotate(90deg) scale(1.2);
-                filter: hue-rotate(90deg);
+                opacity: 0.3;
+                transform: scale(1.1) rotateY(90deg);
+                filter: blur(2px) hue-rotate(90deg);
             }
             50% { 
-                transform: translateX(100px) translateY(0px) rotate(180deg) scale(0.8);
-                filter: hue-rotate(180deg);
+                opacity: 0.9;
+                transform: scale(0.9) rotateY(180deg);
+                filter: blur(1px) hue-rotate(180deg);
             }
             75% { 
-                transform: translateX(200px) translateY(100px) rotate(270deg) scale(1.1);
-                filter: hue-rotate(270deg);
+                opacity: 0.4;
+                transform: scale(1.2) rotateY(270deg);
+                filter: blur(3px) hue-rotate(270deg);
             }
         }
 
-        @keyframes duoDance2 {
-            0%, 100% { 
-                transform: translateX(200px) translateY(0px) rotate(0deg) scale(1);
-                filter: hue-rotate(180deg);
-            }
-            25% { 
-                transform: translateX(100px) translateY(100px) rotate(-90deg) scale(0.8);
-                filter: hue-rotate(270deg);
-            }
-            50% { 
-                transform: translateX(-100px) translateY(0px) rotate(-180deg) scale(1.2);
-                filter: hue-rotate(360deg);
-            }
-            75% { 
-                transform: translateX(-200px) translateY(-100px) rotate(-270deg) scale(0.9);
-                filter: hue-rotate(90deg);
-            }
+        @keyframes hologramScan {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
 
-        @keyframes trioDance1 {
-            0%, 100% { 
-                transform: translateX(-250px) translateY(-150px) rotate(0deg) scale(0.8);
-            }
-            33% { 
-                transform: translateX(0px) translateY(-200px) rotate(120deg) scale(1.2);
-            }
-            66% { 
-                transform: translateX(250px) translateY(-150px) rotate(240deg) scale(0.9);
-            }
+        .pixel-explosion {
+            animation: pixelExplosion 1.8s ease-out forwards;
         }
 
-        @keyframes trioDance2 {
-            0%, 100% { 
-                transform: translateX(250px) translateY(0px) rotate(120deg) scale(1);
-            }
-            33% { 
-                transform: translateX(-250px) translateY(0px) rotate(240deg) scale(0.8);
-            }
-            66% { 
-                transform: translateX(0px) translateY(-100px) rotate(360deg) scale(1.3);
-            }
-        }
-
-        @keyframes trioDance3 {
-            0%, 100% { 
-                transform: translateX(0px) translateY(200px) rotate(240deg) scale(1.1);
-            }
-            33% { 
-                transform: translateX(200px) translateY(100px) rotate(360deg) scale(0.7);
-            }
-            66% { 
-                transform: translateX(-200px) translateY(100px) rotate(120deg) scale(1.4);
-            }
-        }
-
-        /* Entrance and Exit Animations */
-        .photo-entrance-slide {
-            animation: entranceSlide 1s ease-out forwards;
-        }
-
-        .photo-entrance-zoom {
-            animation: entranceZoom 0.8s ease-out forwards;
-        }
-
-        .photo-entrance-spin {
-            animation: entranceSpin 1.2s ease-out forwards;
-        }
-
-        .photo-exit-dissolve {
-            animation: exitDissolve 1s ease-in forwards;
-        }
-
-        .photo-exit-explode {
-            animation: exitExplode 0.8s ease-in forwards;
-        }
-
-        @keyframes entranceSlide {
-            0% {
-                transform: translateX(-100vw) rotate(-180deg) scale(0.5);
-                opacity: 0;
-            }
-            100% {
-                transform: translateX(0) rotate(0deg) scale(1);
-                opacity: 1;
-            }
-        }
-
-        @keyframes entranceZoom {
-            0% {
-                transform: scale(0) rotate(0deg);
-                opacity: 0;
-                filter: blur(20px);
-            }
-            50% {
-                transform: scale(1.2) rotate(180deg);
-                opacity: 0.7;
-                filter: blur(5px);
-            }
-            100% {
-                transform: scale(1) rotate(360deg);
-                opacity: 1;
-                filter: blur(0px);
-            }
-        }
-
-        @keyframes entranceSpin {
-            0% {
-                transform: rotateY(-180deg) rotateX(-180deg) scale(0);
-                opacity: 0;
-            }
-            100% {
-                transform: rotateY(0deg) rotateX(0deg) scale(1);
-                opacity: 1;
-            }
-        }
-
-        @keyframes exitDissolve {
-            0% {
-                opacity: 1;
-                filter: blur(0px) brightness(1);
-            }
-            100% {
-                opacity: 0;
-                filter: blur(10px) brightness(2);
-                transform: scale(1.2);
-            }
-        }
-
-        @keyframes exitExplode {
+        @keyframes pixelExplosion {
             0% {
                 transform: scale(1);
-                opacity: 1;
+                filter: contrast(1);
+                image-rendering: auto;
             }
-            50% {
-                transform: scale(2) rotate(180deg);
-                opacity: 0.5;
-                filter: brightness(3) blur(5px);
+            30% {
+                transform: scale(1.1) rotate(15deg);
+                filter: contrast(1.5) saturate(2);
+                image-rendering: pixelated;
+            }
+            60% {
+                transform: scale(0.8) rotate(-15deg);
+                filter: contrast(2) saturate(3) hue-rotate(180deg);
+                image-rendering: pixelated;
+            }
+            80% {
+                transform: scale(1.3) rotate(30deg);
+                filter: contrast(3) saturate(4) hue-rotate(270deg);
+                image-rendering: pixelated;
+                opacity: 0.7;
             }
             100% {
-                transform: scale(0) rotate(360deg);
+                transform: scale(0.1) rotate(90deg);
+                filter: contrast(5) saturate(5) hue-rotate(360deg);
+                image-rendering: pixelated;
                 opacity: 0;
-                filter: brightness(5) blur(20px);
             }
         }
 
-        /* Particle Effects */
-        .photo-particles {
+        .anti-gravity-dance {
+            animation: antiGravityDance 3s ease-in-out infinite;
+        }
+
+        @keyframes antiGravityDance {
+            0% { 
+                transform: translateY(0px) rotate(0deg) scale(1);
+                filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+            }
+            20% { 
+                transform: translateY(-150px) rotate(72deg) scale(1.2);
+                filter: drop-shadow(0 30px 40px rgba(255,0,110,0.4));
+            }
+            40% { 
+                transform: translateY(-300px) rotate(144deg) scale(0.8);
+                filter: drop-shadow(0 50px 60px rgba(0,255,255,0.4));
+            }
+            60% { 
+                transform: translateY(-200px) rotate(216deg) scale(1.3);
+                filter: drop-shadow(0 40px 50px rgba(255,255,0,0.4));
+            }
+            80% { 
+                transform: translateY(-100px) rotate(288deg) scale(0.9);
+                filter: drop-shadow(0 20px 30px rgba(255,128,0,0.4));
+            }
+            100% { 
+                transform: translateY(0px) rotate(360deg) scale(1);
+                filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+            }
+        }
+
+        .kaleidoscope-dance {
+            animation: kaleidoscopeDance 2.5s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes kaleidoscopeDance {
+            0%, 100% { 
+                transform: rotate(0deg) scale(1);
+                filter: hue-rotate(0deg) saturate(1) brightness(1);
+                clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            }
+            25% { 
+                transform: rotate(90deg) scale(1.2);
+                filter: hue-rotate(90deg) saturate(2) brightness(1.5);
+                clip-path: polygon(25% 0%, 75% 25%, 100% 75%, 75% 100%, 25% 75%, 0% 25%);
+            }
+            50% { 
+                transform: rotate(180deg) scale(0.8);
+                filter: hue-rotate(180deg) saturate(3) brightness(2);
+                clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+            }
+            75% { 
+                transform: rotate(270deg) scale(1.4);
+                filter: hue-rotate(270deg) saturate(2.5) brightness(1.3);
+                clip-path: polygon(20% 0%, 80% 20%, 100% 80%, 80% 100%, 20% 80%, 0% 20%);
+            }
+        }
+
+        .spacetime-warp {
+            animation: spacetimeWarp 2.8s ease-in-out infinite;
+            position: relative;
+        }
+
+        .spacetime-warp::before {
+            content: '';
             position: absolute;
-            width: 10px;
-            height: 10px;
-            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
-            border-radius: 50%;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, transparent 30%, rgba(255,0,255,0.1) 50%, rgba(0,255,255,0.2) 70%, transparent 90%);
+            animation: warpField 2.8s ease-in-out infinite;
             pointer-events: none;
-            animation: particleFloat 2s ease-out forwards;
         }
 
-        @keyframes particleFloat {
-            0% {
-                transform: scale(0) translateY(0);
-                opacity: 1;
+        @keyframes spacetimeWarp {
+            0%, 100% { 
+                transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1);
+                filter: blur(0px) hue-rotate(0deg) brightness(1);
+                border-radius: 15px;
             }
-            100% {
-                transform: scale(1) translateY(-200px);
-                opacity: 0;
+            20% { 
+                transform: perspective(1000px) rotateX(45deg) rotateY(90deg) scale(1.2) skewX(15deg);
+                filter: blur(3px) hue-rotate(72deg) brightness(1.5);
+                border-radius: 30px;
+            }
+            40% { 
+                transform: perspective(1000px) rotateX(-30deg) rotateY(180deg) scale(0.7) skewY(-20deg);
+                filter: blur(6px) hue-rotate(144deg) brightness(2);
+                border-radius: 50px;
+            }
+            60% { 
+                transform: perspective(1000px) rotateX(60deg) rotateY(270deg) scale(1.4) skewX(-25deg);
+                filter: blur(4px) hue-rotate(216deg) brightness(1.8);
+                border-radius: 40px;
+            }
+            80% { 
+                transform: perspective(1000px) rotateX(-45deg) rotateY(315deg) scale(0.9) skewY(10deg);
+                filter: blur(2px) hue-rotate(288deg) brightness(1.3);
+                border-radius: 25px;
             }
         }
 
-        /* Crazy Beat Animations */
+        @keyframes warpField {
+            0%, 100% { 
+                transform: rotate(0deg) scale(1);
+                opacity: 0.3;
+            }
+            50% { 
+                transform: rotate(180deg) scale(1.5);
+                opacity: 0.7;
+            }
+        }
+
+        /* Beat Effects */
         .photo.beat-dance {
             animation: beatDance 0.8s ease-out;
         }
@@ -917,47 +631,6 @@
             90% { transform: translate(-10px, 10px) scale(1.05); filter: hue-rotate(180deg) invert(0.6); }
         }
 
-        /* Multi Photo Arrangements */
-        .photo-grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            width: 100%;
-            height: 100%;
-            padding: 20px;
-        }
-
-        .photo-grid-3 {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 15px;
-            width: 100%;
-            height: 100%;
-            padding: 20px;
-        }
-
-        .photo-grid-4 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
-            gap: 15px;
-            width: 100%;
-            height: 100%;
-            padding: 20px;
-        }
-
-        .photo-cascade {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
-
-        .photo-cascade .photo {
-            position: absolute;
-            max-width: 300px;
-            max-height: 200px;
-        }
-
         /* Floating Photos */
         .floating-photo {
             position: fixed;
@@ -987,26 +660,6 @@
                 transform: scale(0) rotate(720deg);
                 opacity: 0;
             }
-        }
-
-        /* Beat Effects Enhancement */
-        .display-content.beat-shake {
-            animation: containerShake 0.3s ease-out;
-        }
-
-        .display-content.beat-flash {
-            animation: containerFlash 0.2s ease-out;
-        }
-
-        @keyframes containerShake {
-            0%, 100% { transform: translateX(0px) translateY(0px); }
-            25% { transform: translateX(-10px) translateY(5px); }
-            75% { transform: translateX(10px) translateY(-5px); }
-        }
-
-        @keyframes containerFlash {
-            0%, 100% { background: transparent; }
-            50% { background: rgba(255, 0, 110, 0.1); }
         }
 
         /* Welcome Screen */
@@ -1308,6 +961,7 @@
     <script>
         class BeatSyncStudio {
             constructor() {
+                // Core properties
                 this.photos = [];
                 this.currentIndex = 0;
                 this.isPlaying = false;
@@ -1316,29 +970,36 @@
                 this.analyser = null;
                 this.audioElement = null;
                 this.microphone = null;
+                
+                // Beat detection settings
                 this.beatThreshold = 1.2;
                 this.sensitivity = 1;
                 this.effectLevel = 2;
                 this.lastBeatTime = 0;
                 this.beatCooldown = 300;
+                
+                // Visual elements
                 this.visualizerBars = [];
                 this.isFullscreen = false;
-                this.multiPhotoMode = false;
                 this.floatingPhotos = [];
+                
+                // Beat tracking
                 this.beatCount = 0;
                 this.lastStrongBeat = 0;
                 this.energyHistory = [];
                 
-                // Dance move arrays
+                // Dance effects arrays
                 this.danceEffects = [
                     'beat-dance', 'beat-bounce', 'beat-spin', 'beat-shake',
                     'beat-zoom-crazy', 'beat-flip', 'beat-wave', 'beat-explosion',
                     'beat-spiral', 'beat-glitch'
                 ];
-                this.crumpleEffects = [
-    'crumple-photo', 'crumple-slow', 'crumple-twist', 
-    'crumple-fold', 'crumple-scrunch'
-];
+                
+                this.specialDanceEffects = [
+                    'hologram-dance', 'pixel-explosion', 'anti-gravity-dance',
+                    'kaleidoscope-dance', 'spacetime-warp'
+                ];
+                
                 this.init();
             }
 
@@ -1350,7 +1011,6 @@
             }
 
             setupEventListeners() {
-                // Setup drag and drop first
                 this.setupDragAndDrop();
                 
                 // Controls
@@ -1377,71 +1037,57 @@
                 const audioInput = document.getElementById('audioFile');
                 const photoInput = document.getElementById('photoFiles');
                 
-                // Audio zone click handler
+                // Audio zone
                 audioZone.addEventListener('click', (e) => {
                     e.preventDefault();
-                    e.stopPropagation();
                     audioInput.click();
                 });
                 
-                // Audio drag and drop
                 audioZone.addEventListener('dragover', (e) => {
                     e.preventDefault();
-                    e.stopPropagation();
                     audioZone.classList.add('dragover');
                 });
                 
                 audioZone.addEventListener('dragleave', (e) => {
                     e.preventDefault();
-                    e.stopPropagation();
                     audioZone.classList.remove('dragover');
                 });
                 
                 audioZone.addEventListener('drop', (e) => {
                     e.preventDefault();
-                    e.stopPropagation();
                     audioZone.classList.remove('dragover');
                     const files = e.dataTransfer.files;
                     if (files[0] && files[0].type.startsWith('audio/')) {
                         this.handleAudioFile(files[0]);
-                    } else {
-                        this.updateStatus('올바른 음악 파일을 선택해주세요 (MP3, WAV, M4A 등)');
                     }
                 });
                 
-                // Photo zone click handler
+                // Photo zone
                 photoZone.addEventListener('click', (e) => {
                     e.preventDefault();
-                    e.stopPropagation();
                     photoInput.click();
                 });
                 
-                // Photo drag and drop
                 photoZone.addEventListener('dragover', (e) => {
                     e.preventDefault();
-                    e.stopPropagation();
                     photoZone.classList.add('dragover');
                 });
                 
                 photoZone.addEventListener('dragleave', (e) => {
                     e.preventDefault();
-                    e.stopPropagation();
                     photoZone.classList.remove('dragover');
                 });
                 
                 photoZone.addEventListener('drop', (e) => {
                     e.preventDefault();
-                    e.stopPropagation();
                     photoZone.classList.remove('dragover');
                     const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
                     if (files.length > 0) {
                         this.handlePhotoFiles(files);
-                    } else {
-                        this.updateStatus('올바른 이미지 파일을 선택해주세요 (JPG, PNG, GIF 등)');
                     }
                 });
                 
-                // Direct file input change events
+                // File input events
                 audioInput.addEventListener('change', (e) => {
                     if (e.target.files[0]) {
                         this.handleAudioFile(e.target.files[0]);
@@ -1454,13 +1100,6 @@
                         this.handlePhotoFiles(files);
                     }
                 });
-            }
-
-            async handleAudioUpload(event) {
-                const file = event.target.files[0];
-                if (file) {
-                    await this.handleAudioFile(file);
-                }
             }
 
             async handleAudioFile(file) {
@@ -1481,11 +1120,6 @@
                     this.updateStatus('음악 파일 로딩 오류');
                     console.error('Audio setup error:', error);
                 }
-            }
-
-            handlePhotoUpload(event) {
-                const files = Array.from(event.target.files);
-                this.handlePhotoFiles(files);
             }
 
             handlePhotoFiles(files) {
@@ -1569,17 +1203,14 @@
             showPhoto(index) {
                 if (this.photos.length === 0) return;
 
-                // Remove active class from all containers
                 document.querySelectorAll('.photo-container').forEach(container => {
                     container.classList.remove('active');
                 });
 
-                // Remove active class from all thumbnails
                 document.querySelectorAll('.thumbnail').forEach(thumb => {
                     thumb.classList.remove('active');
                 });
 
-                // Show current photo
                 const containers = document.querySelectorAll('.photo-container');
                 const thumbnails = document.querySelectorAll('.thumbnail');
                 
@@ -1613,16 +1244,13 @@
                 try {
                     this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
                     this.analyser = this.audioContext.createAnalyser();
-                    this.analyser.fftSize = 1024; // Increased for better frequency resolution
-                    this.analyser.smoothingTimeConstant = 0.3; // Reduced for more responsive detection
+                    this.analyser.fftSize = 1024;
+                    this.analyser.smoothingTimeConstant = 0.3;
 
                     const source = this.audioContext.createMediaElementSource(this.audioElement);
                     source.connect(this.analyser);
                     source.connect(this.audioContext.destination);
 
-                    console.log('🎵 Audio context setup complete');
-                    console.log(`FFT Size: ${this.analyser.fftSize}, Frequency Bin Count: ${this.analyser.frequencyBinCount}`);
-                    
                     this.startBeatDetection();
                 } catch (error) {
                     console.error('Audio context setup failed:', error);
@@ -1666,7 +1294,6 @@
                     
                     this.analyser.getByteFrequencyData(dataArray);
                     
-                    // Calculate energy in different frequency ranges
                     let bassEnergy = 0;
                     let midEnergy = 0;
                     let highEnergy = 0;
@@ -1688,21 +1315,15 @@
                     midEnergy /= (midRange - bassRange);
                     highEnergy /= (bufferLength - midRange);
 
-                    // Update visualizer
                     this.updateVisualizerWithData(dataArray);
 
-                    // Enhanced beat detection
                     const now = Date.now();
-                    const totalEnergy = (bassEnergy * 2 + midEnergy + highEnergy) / 4; // Weight bass more
-                    const energyThreshold = this.beatThreshold * 80; // Lower threshold for better detection
+                    const totalEnergy = (bassEnergy * 2 + midEnergy + highEnergy) / 4;
+                    const energyThreshold = this.beatThreshold * 80;
                     
-                    // Detect beat with better algorithm
                     if (totalEnergy > energyThreshold && now - lastBeatDetected > this.beatCooldown) {
-                        console.log(`🎵 BEAT DETECTED! Energy: ${totalEnergy.toFixed(1)}, Bass: ${bassEnergy.toFixed(1)}, Mid: ${midEnergy.toFixed(1)}, High: ${highEnergy.toFixed(1)}`);
                         this.onBeatDetected(bassEnergy, midEnergy, highEnergy);
                         lastBeatDetected = now;
-                        
-                        // Visual feedback for debugging
                         this.updateStatus(`🎵 비트 감지! 에너지: ${totalEnergy.toFixed(1)}`);
                     }
 
@@ -1710,7 +1331,6 @@
                 };
 
                 detectBeat();
-                console.log('🎵 Beat detection started!');
             }
 
             onBeatDetected(bassEnergy, midEnergy, highEnergy) {
@@ -1718,7 +1338,6 @@
                 const now = Date.now();
                 const totalEnergy = (bassEnergy + midEnergy + highEnergy) / 3;
                 
-                // Store energy history for pattern recognition
                 this.energyHistory.push({
                     time: now,
                     bass: bassEnergy,
@@ -1731,105 +1350,64 @@
                     this.energyHistory.shift();
                 }
                 
-                // Determine beat intensity
                 const intensity = this.getBeatIntensity(bassEnergy, midEnergy, highEnergy);
-                
-                // 새로운 춤추는 사진 시스템
                 this.choreographPhotos(intensity, bassEnergy, midEnergy, highEnergy, now);
-                
-                // Trigger various beat responses
                 this.triggerBeatResponse(intensity, now);
             }
 
             choreographPhotos(intensity, bass, mid, high, timestamp) {
                 if (this.photos.length === 0) return;
                 
-                console.log(`🎭 Choreographing photos with ${intensity} intensity`);
-                
-                // Clear any existing dance performances
                 this.clearActiveDances();
-                
-                // Choose choreography based on intensity and frequency dominance
                 const choreography = this.selectChoreography(intensity, bass, mid, high);
-                
-                // Execute the selected dance routine
                 this.executeDanceRoutine(choreography, intensity);
             }
 
             selectChoreography(intensity, bass, mid, high) {
                 const routines = {
-    extreme: [
-        'glass_shatter',
-        'paper_crumple_extreme', 
-        'explosive_trio',
-        'chaos_dance',
-        'photo_storm',
-        'paper_twist_storm'
-    ],
-    strong: [
-        'dancing_duo',
-        'spinning_trio',
-        'wave_sequence',
-        'bounce_party',
-        'rotating_gallery',
-        'paper_crumple_strong'
-    ],
-    medium: [
-        'gentle_duo',
-        'floating_pair',
-        'slide_sequence',
-        'zoom_dance',
-        'paper_fold'
-    ],
-    weak: [
-        'single_sway',
-        'subtle_float',
-        'gentle_fade',
-        'paper_crumple_gentle'
-    ]
-};
+                    extreme: [
+                        'special_hologram_show', 'special_pixel_party', 'special_spacetime_chaos'
+                    ],
+                    strong: [
+                        'special_anti_gravity', 'special_kaleidoscope', 'dancing_duo'
+                    ],
+                    medium: [
+                        'special_gentle_warp', 'gentle_duo', 'single_sway'
+                    ],
+                    weak: [
+                        'special_hologram_subtle', 'single_sway'
+                    ]
+                };
                 
                 const availableRoutines = routines[intensity] || routines.weak;
-                
-                // Select based on dominant frequency
-                let selectedRoutine;
-                if (bass > mid && bass > high) {
-                    // Bass-heavy: more dramatic effects
-                    selectedRoutine = availableRoutines[0] || availableRoutines[Math.floor(Math.random() * availableRoutines.length)];
-                } else if (mid > bass && mid > high) {
-                    // Mid-heavy: rhythmic dancing
-                    selectedRoutine = availableRoutines[1] || availableRoutines[Math.floor(Math.random() * availableRoutines.length)];
-                } else {
-                    // High-heavy: light, airy effects
-                    selectedRoutine = availableRoutines[2] || availableRoutines[Math.floor(Math.random() * availableRoutines.length)];
-                }
-                
-                console.log(`🎪 Selected choreography: ${selectedRoutine}`);
-                return selectedRoutine;
+                return availableRoutines[Math.floor(Math.random() * availableRoutines.length)];
             }
 
             executeDanceRoutine(routine, intensity) {
                 switch(routine) {
-                    case 'glass_shatter':
-                        this.performGlassShatter();
+                    case 'special_hologram_show':
+                        this.performHologramShow();
                         break;
-                    case 'paper_crumple':
-                        this.performPaperCrumple();
+                    case 'special_pixel_party':
+                        this.performPixelParty();
+                        break;
+                    case 'special_spacetime_chaos':
+                        this.performSpacetimeChaos();
+                        break;
+                    case 'special_anti_gravity':
+                        this.performAntiGravityDance();
+                        break;
+                    case 'special_kaleidoscope':
+                        this.performKaleidoscopeShow();
+                        break;
+                    case 'special_gentle_warp':
+                        this.performGentleWarp();
+                        break;
+                    case 'special_hologram_subtle':
+                        this.performSubtleHologram();
                         break;
                     case 'dancing_duo':
                         this.performDancingDuo();
-                        break;
-                    case 'spinning_trio':
-                        this.performSpinningTrio();
-                        break;
-                    case 'explosive_trio':
-                        this.performExplosiveTrio();
-                        break;
-                    case 'photo_storm':
-                        this.performPhotoStorm();
-                        break;
-                    case 'wave_sequence':
-                        this.performWaveSequence();
                         break;
                     case 'gentle_duo':
                         this.performGentleDuo();
@@ -1842,310 +1420,285 @@
                 }
             }
 
-            performGlassShatter() {
+            // Special Dance Performances
+            performHologramShow() {
+                const photos = this.getRandomPhotos(3);
+                if (photos.length === 0) return;
+                
+                const displayContent = document.getElementById('displayContent');
+                
+                photos.forEach((photo, index) => {
+                    setTimeout(() => {
+                        const hologramPhoto = document.createElement('img');
+                        hologramPhoto.src = photo.url;
+                        hologramPhoto.className = 'dancing-photo hologram-dance';
+                        
+                        const positions = [
+                            { top: '30%', left: '25%' },
+                            { top: '70%', left: '75%' },
+                            { top: '50%', left: '50%' }
+                        ];
+                        
+                        hologramPhoto.style.cssText = `
+                            top: ${positions[index].top};
+                            left: ${positions[index].left};
+                            transform: translate(-50%, -50%);
+                            width: 250px;
+                            height: 180px;
+                            z-index: 20;
+                        `;
+                        
+                        displayContent.appendChild(hologramPhoto);
+                        
+                        setTimeout(() => {
+                            hologramPhoto.style.opacity = '0';
+                            setTimeout(() => {
+                                if (hologramPhoto.parentNode) {
+                                    hologramPhoto.parentNode.removeChild(hologramPhoto);
+                                }
+                            }, 500);
+                        }, 3000);
+                    }, index * 300);
+                });
+            }
+
+            performPixelParty() {
+                const photos = this.getRandomPhotos(2);
+                if (photos.length === 0) return;
+                
+                const displayContent = document.getElementById('displayContent');
+                
+                photos.forEach((photo, index) => {
+                    setTimeout(() => {
+                        const pixelPhoto = document.createElement('img');
+                        pixelPhoto.src = photo.url;
+                        pixelPhoto.className = 'dancing-photo pixel-explosion';
+                        
+                        pixelPhoto.style.cssText = `
+                            top: ${30 + index * 40}%;
+                            left: ${30 + index * 40}%;
+                            transform: translate(-50%, -50%);
+                            width: 300px;
+                            height: 200px;
+                            z-index: 20;
+                        `;
+                        
+                        displayContent.appendChild(pixelPhoto);
+                        
+                        setTimeout(() => {
+                            if (pixelPhoto.parentNode) {
+                                pixelPhoto.parentNode.removeChild(pixelPhoto);
+                            }
+                        }, 2000);
+                    }, index * 400);
+                });
+            }
+
+            performSpacetimeChaos() {
+                const photos = this.getRandomPhotos(4);
+                if (photos.length === 0) return;
+                
+                const displayContent = document.getElementById('displayContent');
+                
+                photos.forEach((photo, index) => {
+                    setTimeout(() => {
+                        const warpPhoto = document.createElement('img');
+                        warpPhoto.src = photo.url;
+                        warpPhoto.className = 'dancing-photo spacetime-warp';
+                        
+                        warpPhoto.style.cssText = `
+                            top: ${Math.random() * 60 + 20}%;
+                            left: ${Math.random() * 60 + 20}%;
+                            transform: translate(-50%, -50%);
+                            width: ${200 + Math.random() * 100}px;
+                            height: ${150 + Math.random() * 75}px;
+                            z-index: 20;
+                        `;
+                        
+                        displayContent.appendChild(warpPhoto);
+                        
+                        setTimeout(() => {
+                            warpPhoto.style.opacity = '0';
+                            setTimeout(() => {
+                                if (warpPhoto.parentNode) {
+                                    warpPhoto.parentNode.removeChild(warpPhoto);
+                                }
+                            }, 500);
+                        }, 3500);
+                    }, index * 200);
+                });
+            }
+
+            performAntiGravityDance() {
+                const photos = this.getRandomPhotos(2);
+                if (photos.length === 0) return;
+                
+                const displayContent = document.getElementById('displayContent');
+                
+                photos.forEach((photo, index) => {
+                    const gravityPhoto = document.createElement('img');
+                    gravityPhoto.src = photo.url;
+                    gravityPhoto.className = 'dancing-photo anti-gravity-dance';
+                    
+                    gravityPhoto.style.cssText = `
+                        top: 80%;
+                        left: ${25 + index * 50}%;
+                        transform: translate(-50%, -50%);
+                        width: 280px;
+                        height: 200px;
+                        z-index: 20;
+                    `;
+                    
+                    displayContent.appendChild(gravityPhoto);
+                    
+                    setTimeout(() => {
+                        gravityPhoto.style.opacity = '0';
+                        setTimeout(() => {
+                            if (gravityPhoto.parentNode) {
+                                gravityPhoto.parentNode.removeChild(gravityPhoto);
+                            }
+                        }, 500);
+                    }, 4000);
+                });
+            }
+
+            performKaleidoscopeShow() {
                 const photo = this.getRandomPhoto();
                 if (!photo) return;
                 
-                console.log('💥 Performing glass shatter effect');
-                
                 const displayContent = document.getElementById('displayContent');
-                const shatterContainer = document.createElement('div');
-                shatterContainer.className = 'shatter-container';
+                const kaleidoPhoto = document.createElement('img');
+                kaleidoPhoto.src = photo.url;
+                kaleidoPhoto.className = 'dancing-photo kaleidoscope-dance';
                 
-                // Create main photo that will shatter
-                const mainPhoto = document.createElement('img');
-                mainPhoto.src = photo.url;
-                mainPhoto.style.cssText = `
-                    position: absolute;
+                kaleidoPhoto.style.cssText = `
                     top: 50%;
                     left: 50%;
                     transform: translate(-50%, -50%);
-                    max-width: 60%;
-                    max-height: 60%;
-                    border-radius: 15px;
+                    width: 400px;
+                    height: 300px;
                     z-index: 20;
                 `;
                 
-                shatterContainer.appendChild(mainPhoto);
-                displayContent.appendChild(shatterContainer);
+                displayContent.appendChild(kaleidoPhoto);
                 
-                // Create shatter effect after brief display
                 setTimeout(() => {
-                    mainPhoto.style.opacity = '0';
-                    this.createGlassShards(photo, shatterContainer, mainPhoto.getBoundingClientRect());
-                }, 500);
-                
-                // Clean up
-                setTimeout(() => {
-                    if (shatterContainer.parentNode) {
-                        shatterContainer.parentNode.removeChild(shatterContainer);
-                    }
+                    kaleidoPhoto.style.opacity = '0';
+                    setTimeout(() => {
+                        if (kaleidoPhoto.parentNode) {
+                            kaleidoPhoto.parentNode.removeChild(kaleidoPhoto);
+                        }
+                    }, 500);
                 }, 3000);
             }
 
-            createGlassShards(photo, container, bounds) {
-                const shardCount = 15 + Math.floor(Math.random() * 10);
-                
-                for (let i = 0; i < shardCount; i++) {
-                    const shard = document.createElement('div');
-                    shard.className = 'shard';
-                    
-                    const shardSize = 20 + Math.random() * 40;
-                    const centerX = bounds.left + bounds.width / 2;
-                    const centerY = bounds.top + bounds.height / 2;
-                    
-                    shard.style.cssText = `
-                        width: ${shardSize}px;
-                        height: ${shardSize}px;
-                        left: ${centerX + (Math.random() - 0.5) * bounds.width}px;
-                        top: ${centerY + (Math.random() - 0.5) * bounds.height}px;
-                        background-image: url(${photo.url});
-                        background-size: ${bounds.width}px ${bounds.height}px;
-                        background-position: ${-(Math.random() * bounds.width)}px ${-(Math.random() * bounds.height)}px;
-                        --shatter-x: ${(Math.random() - 0.5) * 1000}px;
-                        --shatter-y: ${(Math.random() - 0.5) * 1000}px;
-                        z-index: 25;
-                    `;
-                    
-                    container.appendChild(shard);
-                }
-            }
-
-            performPaperCrumple() {
+            performGentleWarp() {
                 const photo = this.getRandomPhoto();
                 if (!photo) return;
                 
-                console.log('📄 Performing paper crumple effect');
-                
                 const displayContent = document.getElementById('displayContent');
-                const crumplePhoto = document.createElement('img');
-                crumplePhoto.src = photo.url;
-                crumplePhoto.className = 'dancing-photo crumple-photo';
-                crumplePhoto.style.cssText = `
+                const warpPhoto = document.createElement('img');
+                warpPhoto.src = photo.url;
+                warpPhoto.className = 'dancing-photo spacetime-warp';
+                
+                warpPhoto.style.cssText = `
                     top: 50%;
                     left: 50%;
                     transform: translate(-50%, -50%);
-                    max-width: 50%;
-                    max-height: 50%;
+                    width: 350px;
+                    height: 250px;
                     z-index: 20;
+                    animation-duration: 4s;
                 `;
                 
-                displayContent.appendChild(crumplePhoto);
-                
-                // Create paper particles
-                setTimeout(() => {
-                    this.createParticleEffect(crumplePhoto.getBoundingClientRect(), 20);
-                }, 800);
+                displayContent.appendChild(warpPhoto);
                 
                 setTimeout(() => {
-                    if (crumplePhoto.parentNode) {
-                        crumplePhoto.parentNode.removeChild(crumplePhoto);
-                    }
-                }, 2000);
+                    warpPhoto.style.opacity = '0';
+                    setTimeout(() => {
+                        if (warpPhoto.parentNode) {
+                            warpPhoto.parentNode.removeChild(warpPhoto);
+                        }
+                    }, 500);
+                }, 4500);
+            }
+
+            performSubtleHologram() {
+                const photo = this.getRandomPhoto();
+                if (!photo) return;
+                
+                const displayContent = document.getElementById('displayContent');
+                const holoPhoto = document.createElement('img');
+                holoPhoto.src = photo.url;
+                holoPhoto.className = 'dancing-photo hologram-dance';
+                
+                holoPhoto.style.cssText = `
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 320px;
+                    height: 220px;
+                    z-index: 20;
+                    animation-duration: 3s;
+                `;
+                
+                displayContent.appendChild(holoPhoto);
+                
+                setTimeout(() => {
+                    holoPhoto.style.opacity = '0';
+                    setTimeout(() => {
+                        if (holoPhoto.parentNode) {
+                            holoPhoto.parentNode.removeChild(holoPhoto);
+                        }
+                    }, 500);
+                }, 3500);
             }
 
             performDancingDuo() {
                 const photos = this.getRandomPhotos(2);
                 if (photos.length < 2) return;
                 
-                console.log('💃 Performing dancing duo');
-                
                 const displayContent = document.getElementById('displayContent');
                 
                 photos.forEach((photo, index) => {
                     const dancingPhoto = document.createElement('img');
                     dancingPhoto.src = photo.url;
-                    dancingPhoto.className = `dancing-photo dance-duo-${index + 1} photo-entrance-slide`;
+                    dancingPhoto.className = 'dancing-photo';
                     dancingPhoto.style.cssText = `
                         top: 50%;
-                        left: 50%;
+                        left: ${25 + index * 50}%;
                         transform: translate(-50%, -50%);
                         width: 250px;
                         height: 180px;
                         z-index: 15;
+                        animation: beatDance 2s ease-in-out infinite;
                     `;
                     
                     displayContent.appendChild(dancingPhoto);
                     
-                    // Exit after dance
                     setTimeout(() => {
-                        dancingPhoto.classList.add('photo-exit-dissolve');
+                        dancingPhoto.style.opacity = '0';
                         setTimeout(() => {
                             if (dancingPhoto.parentNode) {
                                 dancingPhoto.parentNode.removeChild(dancingPhoto);
                             }
-                        }, 1000);
+                        }, 500);
                     }, 3000);
                 });
             }
 
-            performSpinningTrio() {
-                const photos = this.getRandomPhotos(3);
-                if (photos.length < 3) return;
-                
-                console.log('🌪️ Performing spinning trio');
-                
-                const displayContent = document.getElementById('displayContent');
-                
-                photos.forEach((photo, index) => {
-                    const spinningPhoto = document.createElement('img');
-                    spinningPhoto.src = photo.url;
-                    spinningPhoto.className = `dancing-photo dance-trio-${index + 1} photo-entrance-spin`;
-                    spinningPhoto.style.cssText = `
-                        top: 50%;
-                        left: 50%;
-                        transform: translate(-50%, -50%);
-                        width: 200px;
-                        height: 140px;
-                        z-index: 15;
-                    `;
-                    
-                    displayContent.appendChild(spinningPhoto);
-                    
-                    setTimeout(() => {
-                        spinningPhoto.classList.add('photo-exit-explode');
-                        setTimeout(() => {
-                            if (spinningPhoto.parentNode) {
-                                spinningPhoto.parentNode.removeChild(spinningPhoto);
-                            }
-                        }, 800);
-                    }, 4000);
-                });
-            }
-
-            performExplosiveTrio() {
-                const photos = this.getRandomPhotos(3);
-                if (photos.length < 3) return;
-                
-                console.log('💥 Performing explosive trio');
-                
-                const displayContent = document.getElementById('displayContent');
-                
-                photos.forEach((photo, index) => {
-                    setTimeout(() => {
-                        const explosivePhoto = document.createElement('img');
-                        explosivePhoto.src = photo.url;
-                        explosivePhoto.className = 'dancing-photo photo-entrance-zoom';
-                        
-                        const positions = [
-                            { top: '30%', left: '20%' },
-                            { top: '70%', left: '80%' },
-                            { top: '50%', left: '50%' }
-                        ];
-                        
-                        explosivePhoto.style.cssText = `
-                            top: ${positions[index].top};
-                            left: ${positions[index].left};
-                            transform: translate(-50%, -50%);
-                            width: 180px;
-                            height: 120px;
-                            z-index: 15;
-                        `;
-                        
-                        displayContent.appendChild(explosivePhoto);
-                        
-                        setTimeout(() => {
-                            explosivePhoto.classList.add('photo-exit-explode');
-                            setTimeout(() => {
-                                if (explosivePhoto.parentNode) {
-                                    explosivePhoto.parentNode.removeChild(explosivePhoto);
-                                }
-                            }, 800);
-                        }, 1000 + index * 300);
-                    }, index * 200);
-                });
-            }
-
-            performPhotoStorm() {
-                const photos = this.getRandomPhotos(5);
-                if (photos.length === 0) return;
-                
-                console.log('🌪️ Performing photo storm');
-                
-                const displayContent = document.getElementById('displayContent');
-                
-                photos.forEach((photo, index) => {
-                    setTimeout(() => {
-                        const stormPhoto = document.createElement('img');
-                        stormPhoto.src = photo.url;
-                        stormPhoto.className = 'dancing-photo photo-entrance-spin';
-                        
-                        stormPhoto.style.cssText = `
-                            top: ${Math.random() * 80 + 10}%;
-                            left: ${Math.random() * 80 + 10}%;
-                            transform: translate(-50%, -50%) rotate(${Math.random() * 360}deg);
-                            width: ${120 + Math.random() * 100}px;
-                            height: ${80 + Math.random() * 60}px;
-                            z-index: 15;
-                            animation-duration: ${0.5 + Math.random()}s;
-                        `;
-                        
-                        displayContent.appendChild(stormPhoto);
-                        
-                        setTimeout(() => {
-                            stormPhoto.classList.add('photo-exit-dissolve');
-                            setTimeout(() => {
-                                if (stormPhoto.parentNode) {
-                                    stormPhoto.parentNode.removeChild(stormPhoto);
-                                }
-                            }, 1000);
-                        }, 1000 + Math.random() * 2000);
-                    }, index * 100);
-                });
-            }
-
-            performWaveSequence() {
-                const photos = this.getRandomPhotos(4);
-                if (photos.length === 0) return;
-                
-                console.log('🌊 Performing wave sequence');
-                
-                const displayContent = document.getElementById('displayContent');
-                
-                photos.forEach((photo, index) => {
-                    setTimeout(() => {
-                        const wavePhoto = document.createElement('img');
-                        wavePhoto.src = photo.url;
-                        wavePhoto.className = 'dancing-photo photo-entrance-slide';
-                        
-                        wavePhoto.style.cssText = `
-                            top: 50%;
-                            left: ${index * 25 + 12.5}%;
-                            transform: translate(-50%, -50%);
-                            width: 200px;
-                            height: 140px;
-                            z-index: 15;
-                            animation-delay: ${index * 0.2}s;
-                        `;
-                        
-                        displayContent.appendChild(wavePhoto);
-                        
-                        setTimeout(() => {
-                            wavePhoto.classList.add('photo-exit-dissolve');
-                            setTimeout(() => {
-                                if (wavePhoto.parentNode) {
-                                    wavePhoto.parentNode.removeChild(wavePhoto);
-                                }
-                            }, 1000);
-                        }, 2000);
-                    }, index * 300);
-                });
-            }
-
             performGentleDuo() {
-                this.performDancingDuo(); // Reuse with gentle timing
+                this.performDancingDuo();
             }
 
             performSingleSway() {
                 const photo = this.getRandomPhoto();
                 if (!photo) return;
                 
-                console.log('🌸 Performing single sway');
-                
                 const displayContent = document.getElementById('displayContent');
                 const swayPhoto = document.createElement('img');
                 swayPhoto.src = photo.url;
-                swayPhoto.className = 'dancing-photo photo-entrance-zoom';
+                swayPhoto.className = 'dancing-photo';
                 swayPhoto.style.cssText = `
                     top: 50%;
                     left: 50%;
@@ -2153,62 +1706,30 @@
                     width: 300px;
                     height: 200px;
                     z-index: 15;
-                    animation-duration: 1.5s;
+                    animation: beatDance 1.5s ease-out;
                 `;
                 
                 displayContent.appendChild(swayPhoto);
                 
                 setTimeout(() => {
-                    swayPhoto.classList.add('photo-exit-dissolve');
+                    swayPhoto.style.opacity = '0';
                     setTimeout(() => {
                         if (swayPhoto.parentNode) {
                             swayPhoto.parentNode.removeChild(swayPhoto);
                         }
-                    }, 1000);
+                    }, 500);
                 }, 2500);
             }
 
             performRandomDance() {
-                // Fallback to existing multi-photo mode
-                this.triggerMultiPhotoMode();
-            }
-
-            createParticleEffect(bounds, count) {
-                for (let i = 0; i < count; i++) {
-                    setTimeout(() => {
-                        const particle = document.createElement('div');
-                        particle.className = 'photo-particles';
-                        particle.style.cssText = `
-                            left: ${bounds.left + Math.random() * bounds.width}px;
-                            top: ${bounds.top + Math.random() * bounds.height}px;
-                            --random-x: ${(Math.random() - 0.5) * 200}px;
-                        `;
-                        
-                        document.body.appendChild(particle);
-                        
-                        setTimeout(() => {
-                            if (particle.parentNode) {
-                                particle.parentNode.removeChild(particle);
-                            }
-                        }, 2000);
-                    }, i * 50);
-                }
+                this.performSingleSway();
             }
 
             clearActiveDances() {
-                // Remove all dancing photos
                 const dancingPhotos = document.querySelectorAll('.dancing-photo');
                 dancingPhotos.forEach(photo => {
                     if (photo.parentNode) {
                         photo.parentNode.removeChild(photo);
-                    }
-                });
-                
-                // Clear shatter containers
-                const shatterContainers = document.querySelectorAll('.shatter-container');
-                shatterContainers.forEach(container => {
-                    if (container.parentNode) {
-                        container.parentNode.removeChild(container);
                     }
                 });
             }
@@ -2224,352 +1745,17 @@
 
             getBeatIntensity(bass, mid, high) {
                 const total = (bass + mid + high) / 3;
-                console.log(`🎚️ Energy levels - Bass: ${bass.toFixed(1)}, Mid: ${mid.toFixed(1)}, High: ${high.toFixed(1)}, Total: ${total.toFixed(1)}`);
                 
-                if (total > 150) {
-                    console.log('🔥 EXTREME intensity detected!');
-                    return 'extreme';
-                }
-                if (total > 100) {
-                    console.log('💪 STRONG intensity detected!');
-                    return 'strong';
-                }
-                if (total > 60) {
-                    console.log('⚡ MEDIUM intensity detected!');
-                    return 'medium';
-                }
-                console.log('🌊 WEAK intensity detected');
+                if (total > 150) return 'extreme';
+                if (total > 100) return 'strong';
+                if (total > 60) return 'medium';
                 return 'weak';
             }
 
-            handleAutoPhotoChange(intensity, now) {
-                const timeSinceLastChange = now - this.lastStrongBeat;
-                
-                switch(intensity) {
-                    case 'extreme':
-                        if (timeSinceLastChange > 200) {
-                            this.triggerMultiPhotoMode();
-                            this.lastStrongBeat = now;
-                        }
-                        break;
-                    case 'strong':
-                        if (timeSinceLastChange > 400) {
-                            if (Math.random() > 0.7) {
-                                this.triggerPhotoExplosion();
-                            } else {
-                                this.nextPhoto();
-                            }
-                            this.lastStrongBeat = now;
-                        }
-                        break;
-                    case 'medium':
-                        if (timeSinceLastChange > 600) {
-                            this.nextPhoto();
-                            this.lastStrongBeat = now;
-                        }
-                        break;
-                }
-            }
-
-            applyCrazyEffects(intensity, bass, mid, high) {
-                console.log(`🎨 Applying ${intensity} effects - Bass: ${bass}, Mid: ${mid}, High: ${high}`);
-                
-                const photos = document.querySelectorAll('.photo');
-                const containers = document.querySelectorAll('.photo-container');
-                const displayContent = document.getElementById('displayContent');
-                
-                if (photos.length === 0) {
-                    console.log('❌ No photos found to apply effects to');
-                    return;
-                }
-                
-                // Clear ALL previous effects first
-                photos.forEach(photo => {
-                    this.danceEffects.forEach(effect => {
-                        photo.classList.remove(effect);
-                    });
-                    // Clear any inline styles
-                    setTimeout(() => {
-                        photo.style.filter = '';
-                        photo.style.transform = '';
-                    }, 10);
-                });
-                
-                containers.forEach(container => {
-                    container.classList.remove('beat-pulse');
-                });
-                
-                displayContent.classList.remove('beat-shake', 'beat-flash');
-                
-                // Apply new effects immediately
-                setTimeout(() => {
-                    switch(intensity) {
-                        case 'extreme':
-                            this.triggerExtremeEffects(photos, displayContent, bass, mid, high);
-                            break;
-                        case 'strong':
-                            this.triggerStrongEffects(photos, displayContent, bass, mid, high);
-                            break;
-                        case 'medium':
-                            this.triggerMediumEffects(photos, displayContent, bass, mid, high);
-                            break;
-                        case 'weak':
-                            this.triggerWeakEffects(photos, displayContent);
-                            break;
-                    }
-                }, 20);
-            }
-
-            triggerExtremeEffects(photos, container, bass, mid, high) {
-                console.log('🔥 EXTREME EFFECTS TRIGGERED!');
-                
-                // Container effects
-                container.classList.add('beat-shake', 'beat-flash');
-                
-                // Apply effects to all visible photos
-                photos.forEach((photo, index) => {
-                    const effect = this.danceEffects[Math.floor(Math.random() * this.danceEffects.length)];
-                    console.log(`Applying ${effect} to photo ${index}`);
-                    photo.classList.add(effect);
-                    
-                    // Additional extreme styling
-                    const brightness = 1.5 + Math.random();
-                    const saturation = 2 + Math.random();
-                    const hue = Math.random() * 360;
-                    const blur = Math.random() * 3;
-                    
-                    photo.style.filter = `
-                        brightness(${brightness})
-                        saturate(${saturation})
-                        hue-rotate(${hue}deg)
-                        blur(${blur}px)
-                    `;
-                    
-                    // Clear filter after effect
-                    setTimeout(() => {
-                        photo.style.filter = '';
-                    }, 1000);
-                });
-                
-                // Create floating photos
-                if (this.photos.length > 0) {
-                    this.createFloatingPhotos(3 + Math.floor(Math.random() * 3));
-                }
-            }
-
-            triggerStrongEffects(photos, container, bass, mid, high) {
-                console.log('💪 STRONG EFFECTS TRIGGERED!');
-                
-                // Determine effect based on dominant frequency
-                let dominantEffect;
-                if (bass > mid && bass > high) {
-                    dominantEffect = ['beat-bounce', 'beat-explosion', 'beat-zoom-crazy'][Math.floor(Math.random() * 3)];
-                } else if (mid > bass && mid > high) {
-                    dominantEffect = ['beat-dance', 'beat-spin', 'beat-wave'][Math.floor(Math.random() * 3)];
-                } else {
-                    dominantEffect = ['beat-shake', 'beat-flip', 'beat-glitch'][Math.floor(Math.random() * 3)];
-                }
-                
-                console.log(`Applying dominant effect: ${dominantEffect}`);
-                
-                photos.forEach((photo, index) => {
-                    photo.classList.add(dominantEffect);
-                    console.log(`Applied ${dominantEffect} to photo ${index}`);
-                });
-                
-                // Create floating photos occasionally
-                if (Math.random() > 0.6 && this.photos.length > 0) {
-                    this.createFloatingPhotos(1 + Math.floor(Math.random() * 2));
-                }
-            }
-
-            triggerMediumEffects(photos, container, bass, mid, high) {
-                console.log('⚡ MEDIUM EFFECTS TRIGGERED!');
-                
-                const lightEffects = ['beat-dance', 'beat-bounce', 'beat-spin'];
-                const selectedEffect = lightEffects[Math.floor(Math.random() * lightEffects.length)];
-                
-                console.log(`Applying medium effect: ${selectedEffect}`);
-                
-                photos.forEach((photo, index) => {
-                    photo.classList.add(selectedEffect);
-                    console.log(`Applied ${selectedEffect} to photo ${index}`);
-                });
-            }
-
-            triggerWeakEffects(photos, container) {
-                console.log('🌊 WEAK EFFECTS TRIGGERED!');
-                
-                photos.forEach((photo, index) => {
-                    photo.classList.add('beat-dance');
-                    console.log(`Applied beat-dance to photo ${index}`);
-                });
-            }
-
-            triggerMultiPhotoMode() {
-                if (this.photos.length < 2) return;
-                
-                const displayContent = document.getElementById('displayContent');
-                const modes = ['grid-2', 'grid-3', 'grid-4', 'cascade'];
-                const selectedMode = modes[Math.floor(Math.random() * modes.length)];
-                
-                this.multiPhotoMode = true;
-                displayContent.classList.add('multi-photo-mode');
-                
-                // Clear existing content
-                displayContent.innerHTML = '';
-                
-                // Create multi-photo layout
-                switch(selectedMode) {
-                    case 'grid-2':
-                        this.createPhotoGrid(2);
-                        break;
-                    case 'grid-3':
-                        this.createPhotoGrid(3);
-                        break;
-                    case 'grid-4':
-                        this.createPhotoGrid(4);
-                        break;
-                    case 'cascade':
-                        this.createPhotoCascade();
-                        break;
-                }
-                
-                // Return to single mode after a while
-                setTimeout(() => {
-                    this.exitMultiPhotoMode();
-                }, 2000 + Math.random() * 3000);
-            }
-
-            createPhotoGrid(count) {
-                const displayContent = document.getElementById('displayContent');
-                const gridContainer = document.createElement('div');
-                gridContainer.className = `photo-grid-${count}`;
-                
-                const photosToShow = this.getRandomPhotos(count);
-                photosToShow.forEach(photo => {
-                    const img = document.createElement('img');
-                    img.src = photo.url;
-                    img.className = 'photo';
-                    img.style.width = '100%';
-                    img.style.height = '100%';
-                    img.style.objectFit = 'cover';
-                    gridContainer.appendChild(img);
-                });
-                
-                displayContent.appendChild(gridContainer);
-            }
-
-            createPhotoCascade() {
-                const displayContent = document.getElementById('displayContent');
-                const cascadeContainer = document.createElement('div');
-                cascadeContainer.className = 'photo-cascade';
-                
-                const photosToShow = this.getRandomPhotos(Math.min(5, this.photos.length));
-                photosToShow.forEach((photo, index) => {
-                    const img = document.createElement('img');
-                    img.src = photo.url;
-                    img.className = 'photo';
-                    img.style.left = (index * 100 + Math.random() * 200) + 'px';
-                    img.style.top = (index * 80 + Math.random() * 150) + 'px';
-                    img.style.transform = `rotate(${(Math.random() - 0.5) * 60}deg) scale(${0.7 + Math.random() * 0.6})`;
-                    img.style.zIndex = index;
-                    cascadeContainer.appendChild(img);
-                });
-                
-                displayContent.appendChild(cascadeContainer);
-            }
-
-            getRandomPhotos(count) {
-                const shuffled = [...this.photos].sort(() => 0.5 - Math.random());
-                return shuffled.slice(0, count);
-            }
-
-            exitMultiPhotoMode() {
-                this.multiPhotoMode = false;
-                const displayContent = document.getElementById('displayContent');
-                displayContent.classList.remove('multi-photo-mode');
-                
-                // Return to normal single photo display
-                this.createPhotoContainers();
-                this.showPhoto(this.currentIndex);
-            }
-
-            triggerPhotoExplosion() {
-                // Create multiple photos exploding from center
-                const photos = this.getRandomPhotos(Math.min(6, this.photos.length));
-                photos.forEach((photo, index) => {
-                    this.createFloatingPhoto(photo, {
-                        delay: index * 100,
-                        direction: index * 60, // degrees
-                        distance: 200 + Math.random() * 300
-                    });
-                });
-            }
-
-            createFloatingPhotos(count) {
-                for (let i = 0; i < count; i++) {
-                    const randomPhoto = this.photos[Math.floor(Math.random() * this.photos.length)];
-                    if (randomPhoto) {
-                        this.createFloatingPhoto(randomPhoto, {
-                            delay: i * 50
-                        });
-                    }
-                }
-            }
-
-            createFloatingPhoto(photo, options = {}) {
-                const img = document.createElement('img');
-                img.src = photo.url;
-                img.className = 'floating-photo';
-                
-                // Random position
-                const startX = options.startX || Math.random() * window.innerWidth;
-                const startY = options.startY || Math.random() * window.innerHeight;
-                
-                // Apply direction if specified
-                if (options.direction !== undefined) {
-                    const angle = (options.direction * Math.PI) / 180;
-                    const distance = options.distance || 200;
-                    img.style.left = (window.innerWidth / 2) + 'px';
-                    img.style.top = (window.innerHeight / 2) + 'px';
-                    
-                    // Animate to direction
-                    setTimeout(() => {
-                        img.style.transition = 'all 1s ease-out';
-                        img.style.left = (window.innerWidth / 2 + Math.cos(angle) * distance) + 'px';
-                        img.style.top = (window.innerHeight / 2 + Math.sin(angle) * distance) + 'px';
-                    }, 50);
-                } else {
-                    img.style.left = startX + 'px';
-                    img.style.top = startY + 'px';
-                }
-                
-                // Random effects
-                img.style.animationDelay = (options.delay || 0) + 'ms';
-                img.style.filter = `hue-rotate(${Math.random() * 360}deg) brightness(${1 + Math.random()})`;
-                
-                document.body.appendChild(img);
-                this.floatingPhotos.push(img);
-                
-                // Remove after animation
-                setTimeout(() => {
-                    if (img.parentNode) {
-                        img.parentNode.removeChild(img);
-                    }
-                    const index = this.floatingPhotos.indexOf(img);
-                    if (index > -1) {
-                        this.floatingPhotos.splice(index, 1);
-                    }
-                }, 3000 + (options.delay || 0));
-            }
-
             triggerBeatResponse(intensity, now) {
-                // Original beat effects
                 this.triggerBeatEffect();
                 this.triggerVisualizerEffect();
                 
-                // Screen shake for strong beats
                 if (intensity === 'extreme' || intensity === 'strong') {
                     document.body.style.transform = 'translateX(5px)';
                     setTimeout(() => {
@@ -2580,7 +1766,6 @@
                     }, 50);
                 }
                 
-                // Background color flash
                 if (intensity === 'extreme') {
                     document.body.style.filter = 'hue-rotate(180deg) brightness(1.3)';
                     setTimeout(() => {
@@ -2590,7 +1775,6 @@
             }
 
             triggerBeatEffect() {
-                // Create beat ripple effect
                 const effect = document.createElement('div');
                 effect.className = 'beat-effect';
                 effect.style.left = Math.random() * window.innerWidth + 'px';
@@ -2600,11 +1784,6 @@
                 setTimeout(() => {
                     effect.remove();
                 }, 600);
-            }
-
-            triggerPhotoEffect(bassEnergy, midEnergy, highEnergy) {
-                // This method is now handled by applyCrazyEffects
-                // Keeping for compatibility
             }
 
             triggerVisualizerEffect() {
@@ -2639,7 +1818,6 @@
             }
 
             startVisualizerAnimation() {
-                // Fallback animation when no audio
                 setInterval(() => {
                     if (!this.analyser) {
                         this.visualizerBars.forEach((bar, index) => {
@@ -2717,7 +1895,6 @@
             }
 
             cycleSpeed() {
-                // Speed affects beat cooldown
                 const speeds = ['느림', '보통', '빠름', '매우빠름'];
                 const cooldowns = [600, 300, 150, 75];
                 
